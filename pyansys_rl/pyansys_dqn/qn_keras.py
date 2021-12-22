@@ -1,7 +1,8 @@
 import numpy as np
 from keras.models import Sequential, load_model
 from keras.layers import Dense, BatchNormalization, Activation, Dropout
-from keras.optimizers import SGD, Adam
+# from keras.optimizers import SGD, Adam
+from tensorflow.keras.optimizers import SGD, Adam
 import os
 import pickle
 

@@ -128,12 +128,14 @@ class CartPoleMapdlSimple:
 
         mapdl.slashsolu()
         mapdl.outres('erase')
-        mapdl.outres('all', 'none')
+        mapdl.outres('all', 'ALL')
         mapdl.outres('nsol', 'all')
         mapdl.outres('rsol', 'all')
         mapdl.outres('esol', 'all')
         mapdl.outres('v', 'all')
         mapdl.outres('a', 'all')
+        mapdl.outres('MISC', 'all')
+
         mapdl.antype('trans')
 
         mapdl.nlgeom('on')
@@ -211,15 +213,19 @@ class CartPoleMapdlSimple:
         if self._finished:
             return
 
+        mapdl.slashsolu()
         self._cur_time_point += 1
         self._force_dir = force_dir
         mapdl.acel(0., 9.80665, 0.)         # the global cs is accelerated upwards (so a gravity is felt downwards)
         mapdl.f(self._nodes['beam_begin'], 'fx', self._force_dir * self._force_mag)
-        mapdl.time(self._cur_time_point * self._D_time)
+        mapdl.time(self._cur_time_point * self._D_time)        
         mapdl.solve()
         self._query_state()
 
     def _query_state(self):
+        mapdl.post1()
+        mapdl.set('last')  # Added to avoid error on the get.
+
         self._cart_pos = self._cart_pos_0 + mapdl.get_value('node', 1, 'u', 'x')
         self._cart_velocity = mapdl.get_value('node', 1, 'v', 'x')
         self._theta_deg = self._theta_deg_0 - np.degrees(mapdl.get_value('elem', 11, 'SMISC', 66))
