@@ -1,0 +1,4 @@
+gym>=0.10.9
+keras>=2.2.4
+numpy>=1.16
+tensorflow>=2.2.1
