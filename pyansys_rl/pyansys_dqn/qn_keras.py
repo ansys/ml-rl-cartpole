@@ -1,10 +1,19 @@
+from telnetlib import SE
 import numpy as np
-from keras.models import Sequential, load_model
-from keras.layers import Dense, BatchNormalization, Activation, Dropout
+# from keras.models import Sequential, load_model
+# from keras.layers import Dense, BatchNormalization, Activation, Dropout
 # from keras.optimizers import SGD, Adam
-from tensorflow.keras.optimizers import SGD, Adam
+# from tensorflow.keras.optimizers import SGD, Adam
+import tensorflow as tf
 import os
 import pickle
+
+from tensorflow.keras.models import Sequential, load_model
+from tensorflow.keras.layers import Dense, Activation, InputLayer
+from tensorflow.keras.optimizers import SGD, Adam
+
+
+
 
 
 class QNetwork:
@@ -19,9 +28,12 @@ class QNetwork:
         self.n_actions = n_actions
         self.n_mini_batch = n_mini_batch
 
+        """ Old definition
         self.model = Sequential()
 
-        self.model.add(Dense(units=layers[0], input_dim=self.s_formatter.s_shape, kernel_initializer=initialization))
+        self.model.add(Dense(units=layers[0], 
+                             input_dim=self.s_formatter.s_shape,
+                             kernel_initializer=initialization))
         self.model.add(Activation(activation))
 
         for layer in layers[1:]:
@@ -31,9 +43,25 @@ class QNetwork:
         self.model.add(Dense(units=self.n_actions))
         self.model.add(Activation('linear'))
 
-        sgd = SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)
-        adam = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
-        self.model.compile(loss='mse', optimizer=adam, metrics=['mse'])
+        # """
+        self.model = Sequential()
+        self.model.add(InputLayer(input_shape=(self.s_formatter.s_shape,)))
+        self.model.add(Activation(activation))
+
+        for layer in layers:
+            self.model.add(
+                Dense(units=layer, kernel_initializer=initialization))
+            self.model.add(Activation(activation))
+
+        self.model.add(Dense(units=self.n_actions))
+        self.model.add(Activation('linear'))
+
+        lr = 0.1
+        print(f"Learning rate: {lr}")
+        optimizer = Adam(lr=lr, beta_1=0.9, beta_2=0.999,
+                             epsilon=None, decay=0.0, amsgrad=False)
+        optimizer = SGD(lr=lr, decay=1e-6, momentum=0.9, nesterov=True)
+        self.model.compile(loss='mse', optimizer=optimizer, metrics=['mse'])
 
     def fit_batch(self, x, y):
         self.model.train_on_batch(x, y)

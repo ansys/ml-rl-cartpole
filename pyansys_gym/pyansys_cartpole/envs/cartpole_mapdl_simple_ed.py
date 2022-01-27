@@ -36,6 +36,7 @@
 # This script has two further parameters of
 #  * elaspe  - the time to run the simulation for
 #  * deltaT  - the timestep of the simulation
+#
 # And the material parameters:
 #  * Youngs  - Young's Modulus (Pa)
 #  * Poisson - Poisson's ratio
@@ -45,7 +46,6 @@
 # 10/11/2018
 # this code is for demonstration purposes and is not controlled
 # feel free to refer questions to jon.glanville@ansys.com
-
 from collections import namedtuple
 import numpy as np
 import re

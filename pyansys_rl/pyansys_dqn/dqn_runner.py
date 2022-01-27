@@ -78,23 +78,38 @@ def run(env_name,
         done, r_tot, steps = False, 0., 0
         while not done:
             a = learner.next_action(action_sampler)
+            # Return: ob, reward, episode_over, {} => state, reward, episode_over, empty_dict
             sp, r, done, info = env.step(a)
             learner.next_reading(sp, r, done)
             r_tot += r
             steps += 1
+            if 'pyansys-CartPole-v0' in env_name:  # pyansys
+                theta = env.env.env._theta_deg
+                velo = env.env.env._cart_velocity
+            else:
+                theta = env.env.state[2]
+                velo = env.env.state[1]
+
+            print(
+                f"Action: {a:2.0f}\tReward: {r:3.0f}\tSteps: {steps:3.0f}\tTotal reward: {r_tot:3.0f}\tTheta: {theta:12.6f}\tVelocity: {velo:12.6f}")
+
+        print("\nDone!!!\n")
         steps_tot += steps
         rewards[episode] = r_tot
         r_max = max(r_max, r_tot)
         r_ave = np.mean(rewards[max(0, episode+1-averaging_window):episode+1])
-        r_ave_max =  max(r_ave_max, r_ave)
-        master_results[episode] = [episode, steps, r_tot, r_max, r_ave, r_ave_max, steps_tot]
+        r_ave_max = max(r_ave_max, r_ave)
+        master_results[episode] = [episode, steps,
+                                   r_tot, r_max, r_ave, r_ave_max, steps_tot]
         if diagnostics_fn is not None:
-            diagnostics_fn(episode, steps, r_tot, r_max, r_ave, r_ave_max, steps_tot)
+            diagnostics_fn(episode, steps, r_tot, r_max,
+                           r_ave, r_ave_max, steps_tot)
         if r_ave >= victory_threshold:
             episode_final = episode
             break
 
     if output_name:
         learner.save(output_path, output_name)
-        np.save(os.path.join(output_path, output_name + '_master.npy'), master_results)
+        np.save(os.path.join(output_path, output_name +
+                '_master.npy'), master_results)
     return episode_final, r_max, r_tot, r_ave, r_ave_max, steps_tot

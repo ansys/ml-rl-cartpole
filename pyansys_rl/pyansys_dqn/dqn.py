@@ -217,6 +217,7 @@ class ClassicDQNLearner:
 
         # set y_j = r_j + gamma * max(Q_hat(s_{t+1}))
         # where Q_hat(s_{t+1}) = 0 for terminal states
+        # todo:
         actions_p = self.q_double.argmax_batch(states_p)
         q_target_values = self.q_target.predict(states_p)
         maxes = q_target_values[np.arange(self.n_mini_batch), actions_p]
