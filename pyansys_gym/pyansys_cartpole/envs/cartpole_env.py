@@ -16,7 +16,7 @@ class CartPoleEnv(gym.Env, utils.EzPickle):
     actions = {0: -1, 1: 1}
 
     def __init__(self):
-        self.env = CartPoleMapdlSimple(force_mag=1)
+        self.env = CartPoleMapdlSimple(force_mag=5)
         self.status = None
         self.action_space = spaces.Discrete(2)
         self.observation_space = spaces.Box(low=np.array([-5, -np.inf, -180., -np.inf]),
@@ -37,7 +37,6 @@ class CartPoleEnv(gym.Env, utils.EzPickle):
 
         self.status = self.env.is_over()
         reward = self._get_reward()
-        # print(f"Reward is: {reward}")
         ob = self.env.get_state()
         episode_over = self.status
         return ob, reward, episode_over, {}
@@ -47,14 +46,11 @@ class CartPoleEnv(gym.Env, utils.EzPickle):
 
     def _get_reward(self):
         if not self.env.is_over():
-            # print("it is over")
             return 1
         elif self.steps_beyond_done is None:
             self.steps_beyond_done = 0.
-            # print("steps beyond")
             return 1
         else:
-            # print("else")
             self.steps_beyond_done += 1
             return 0
 
