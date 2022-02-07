@@ -49,8 +49,8 @@
 from collections import namedtuple
 import numpy as np
 import re
-from ansys.mapdl.core import launch_mapdl
-mapdl = launch_mapdl(loglevel='ERROR', verbose=False, log_apdl='apdl.log')
+from ansys.mapdl import launch_mapdl
+mapdl = launch_mapdl(loglevel='ERROR', verbose=False)
 
 
 class CartPoleMapdlSimple:
@@ -122,34 +122,28 @@ class CartPoleMapdlSimple:
         mapdl.finish()
         mapdl.prep7()
 
-        with mapdl.non_interactive:
-            self._build_pole()
-            self._build_pole_joint_to_ground()
-            self._build_cart_mass_point()
+        self._build_pole()
+        self._build_pole_joint_to_ground()
+        self._build_cart_mass_point()
 
-            mapdl.slashsolu()
-            mapdl.allsel()
-            # mapdl.outres('erase')
-            mapdl.outres('all', 'all')
-            mapdl.outres('nsol', 'all')
-            mapdl.outres('rsol', 'all')
-            mapdl.outres('esol', 'all')
-            mapdl.outres('v', 'all')
-            mapdl.outres('a', 'all')
-            mapdl.outres('misc', 'all')
-            mapdl.outres('loci', 'all')
-            mapdl.outres('nvar', 'all')
+        mapdl.slashsolu()
+        mapdl.outres('erase')
+        mapdl.outres('all', 'none')
+        mapdl.outres('nsol', 'all')
+        mapdl.outres('rsol', 'all')
+        mapdl.outres('esol', 'all')
+        mapdl.outres('v', 'all')
+        mapdl.outres('a', 'all')
+        mapdl.antype('trans')
 
-            mapdl.antype('trans')
+        mapdl.nlgeom('on')
+        mapdl.timint('on')
+        mapdl.tintp(.05)
+        mapdl.dmprat(.05)
+        mapdl.autots('on')
+        mapdl.deltim(self._d_time, self._d_time_min, self._d_time_max, 'off')
 
-            mapdl.nlgeom('on')
-            mapdl.timint('on')
-            mapdl.tintp(.05)
-            mapdl.dmprat(.05)
-            mapdl.autots('on')
-            mapdl.deltim(self._d_time, self._d_time_min, self._d_time_max, 'off')
-
-            mapdl.ic(self._nodes['beam_begin'], 'vx', self._cart_velocity_0)    # initial conditions
+        mapdl.ic(self._nodes['beam_begin'], 'vx', self._cart_velocity_0)    # initial conditions
 
     def _build_pole(self):
         # ## pole
@@ -217,28 +211,18 @@ class CartPoleMapdlSimple:
         if self._finished:
             return
 
-        with mapdl.non_interactive:
-            self._cur_time_point += 1
-            self._force_dir = force_dir
-            mapdl.acel(0., 9.80665, 0.)         # the global cs is accelerated upwards (so a gravity is felt downwards)
-            mapdl.f(self._nodes['beam_begin'], 'fx', self._force_dir * self._force_mag)
-            mapdl.time(self._cur_time_point * self._D_time)
-
-        mapdl.solve(mute=True)
+        self._cur_time_point += 1
+        self._force_dir = force_dir
+        mapdl.acel(0., 9.80665, 0.)         # the global cs is accelerated upwards (so a gravity is felt downwards)
+        mapdl.f(self._nodes['beam_begin'], 'fx', self._force_dir * self._force_mag)
+        mapdl.time(self._cur_time_point * self._D_time)
+        mapdl.solve()
         self._query_state()
 
     def _query_state(self):
         self._cart_pos = self._cart_pos_0 + mapdl.get_value('node', 1, 'u', 'x')
         self._cart_velocity = mapdl.get_value('node', 1, 'v', 'x')
-        ## alternative to:
-        # self._theta_deg = self._theta_deg_0 - np.degrees(mapdl.get_value('elem', 11, 'SMISC', 66))
-        ## 
-        node_11_x = mapdl.get_value('node', 11, 'u', 'x')
-        node_1_x = mapdl.get_value('node', 1, 'u', 'x')
-        thetha = np.degrees(np.arcsin((node_11_x-node_1_x)/self._track_length))
-        self._theta_deg = self._theta_deg_0 - thetha
-        # print(self._theta_deg)
-        
+        self._theta_deg = self._theta_deg_0 - np.degrees(mapdl.get_value('elem', 11, 'SMISC', 66))
         self._pole_velocity = mapdl.get_value('node', 10, 'v', 'sum')
         self._reported_time_point = int(np.round(mapdl.get_value('active', 0, 'SET', 'LSTP')))
 

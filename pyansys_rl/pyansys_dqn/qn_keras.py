@@ -1,13 +1,10 @@
 import numpy as np
-# from keras.models import Sequential, load_model
-# from keras.layers import Dense, BatchNormalization, Activation, Dropout
-# from keras.optimizers import SGD, Adam
+from keras.models import Sequential, load_model
+from keras.layers import Dense, BatchNormalization, Activation, Dropout
+from keras.optimizers import SGD, Adam
 import os
 import pickle
 
-from tensorflow.keras.models import Sequential, load_model
-from tensorflow.keras.layers import Dense, BatchNormalization, Activation, Dropout
-from tensorflow.keras.optimizers import SGD, Adam
 
 class QNetwork:
     def __init__(self, layers, s_formatter, a_shape, n_actions, n_mini_batch, hack=False):
@@ -32,11 +29,10 @@ class QNetwork:
 
         self.model.add(Dense(units=self.n_actions))
         self.model.add(Activation('linear'))
-        
-        lr = 0.01
-        optimizer = SGD(lr=lr, decay=1e-6, momentum=0.9, nesterov=True)
-        # optimizer = Adam(lr=lr, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
-        self.model.compile(loss='mse', optimizer=optimizer, metrics=['mse'])
+
+        sgd = SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)
+        adam = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+        self.model.compile(loss='mse', optimizer=adam, metrics=['mse'])
 
     def fit_batch(self, x, y):
         self.model.train_on_batch(x, y)

@@ -7,7 +7,7 @@ with open('requirements.txt', 'r') as fh:
     requirements = fh.read().splitlines()
 
 setuptools.setup(
-      name='pyansys_cartpole',
+      name='pyansys_gym',
       version='0.0.1',
       author="Jorge E. Gil",
       author_email="jorge.gil@ansys.com",

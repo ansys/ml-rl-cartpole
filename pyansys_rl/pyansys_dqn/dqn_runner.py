@@ -82,17 +82,6 @@ def run(env_name,
             learner.next_reading(sp, r, done)
             r_tot += r
             steps += 1
-
-            if 'pyansys-CartPole-v0' in env_name:  # pyansys
-                theta = env.env.env._theta_deg
-                velo = env.env.env._cart_velocity
-            else:
-                theta = env.env.state[2]
-                velo = env.env.state[1]
-
-            print(
-                f"Action: {a:2.0f}\tReward: {r:3.0f}\tSteps: {steps:3.0f}\tTotal reward: {r_tot:3.0f}\tTheta: {theta:12.6f}\tVelocity: {velo:12.6f}")
-
         steps_tot += steps
         rewards[episode] = r_tot
         r_max = max(r_max, r_tot)

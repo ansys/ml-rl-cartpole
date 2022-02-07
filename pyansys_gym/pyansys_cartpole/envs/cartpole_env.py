@@ -16,7 +16,7 @@ class CartPoleEnv(gym.Env, utils.EzPickle):
     actions = {0: -1, 1: 1}
 
     def __init__(self):
-        self.env = CartPoleMapdlSimple(force_mag=5)
+        self.env = CartPoleMapdlSimple()
         self.status = None
         self.action_space = spaces.Discrete(2)
         self.observation_space = spaces.Box(low=np.array([-5, -np.inf, -180., -np.inf]),
