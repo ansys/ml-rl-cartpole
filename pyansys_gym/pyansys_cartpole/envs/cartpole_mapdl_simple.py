@@ -49,8 +49,8 @@
 from collections import namedtuple
 import numpy as np
 import re
-from ansys.mapdl import launch_mapdl
-mapdl = launch_mapdl(loglevel='ERROR', verbose=False)
+from ansys.mapdl.core import launch_mapdl
+mapdl = launch_mapdl(loglevel='ERROR', verbose=False, port=50056)
 
 
 class CartPoleMapdlSimple:
@@ -121,6 +121,7 @@ class CartPoleMapdlSimple:
         mapdl.clear()
         mapdl.finish()
         mapdl.prep7()
+        mapdl.afun('rad')
 
         self._build_pole()
         self._build_pole_joint_to_ground()
@@ -222,7 +223,17 @@ class CartPoleMapdlSimple:
     def _query_state(self):
         self._cart_pos = self._cart_pos_0 + mapdl.get_value('node', 1, 'u', 'x')
         self._cart_velocity = mapdl.get_value('node', 1, 'v', 'x')
-        self._theta_deg = self._theta_deg_0 - np.degrees(mapdl.get_value('elem', 11, 'SMISC', 66))
+
+        #Original
+        # self._theta_deg = self._theta_deg_0 - np.degrees(mapdl.get_value('elem', 11, 'SMISC', 66))
+
+        # Modification
+        n11x = mapdl.get_value('node', 11, 'u', 'x')
+        n1x = mapdl.get_value('node', 1, 'u', 'x')
+
+        thetha = np.degrees(np.arcsin((n11x-n1x)/self._pole.length))
+        self._theta_deg = self._theta_deg_0 - thetha
+
         self._pole_velocity = mapdl.get_value('node', 10, 'v', 'sum')
         self._reported_time_point = int(np.round(mapdl.get_value('active', 0, 'SET', 'LSTP')))
 
