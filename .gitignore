@@ -4,6 +4,7 @@
 # Compiled source #
 ###################
 *.pyc
+*.cpython-38.pyc
 *.pyd
 *.c
 *.cpp
@@ -26,7 +27,7 @@ _old/
 
 # Pip generated folders #
 #########################
-*.egg-info/
+*/*.egg-info/
 build/
 dist/
 
@@ -44,3 +45,10 @@ test-output.xml
 /.ipynb_checkpoints
 
 notes.md
+
+*.log
+*.pot
+*.pyc
+*/*/*/__pycache__/
+*/*/__pycache__/
+*/__pycache__/
