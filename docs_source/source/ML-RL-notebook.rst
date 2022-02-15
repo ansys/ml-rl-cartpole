@@ -280,7 +280,7 @@ arrive at the training objective (196 for 10-episode average):
 
 .. parsed-literal::
 
-    Writing model in: C:\Users\gayuso\AppData\Local\Temp\gym_cartpole_results\e22e8cab-251d-4d8a-b698-bcc9ac841ac9
+    Writing model in: C:\\Users\\gayuso\\AppData\\Local\\Temp\\gym_cartpole_results\\e22e8cab-251d-4d8a-b698-bcc9ac841ac9
 
 Now, let's train the agent.
 
@@ -346,7 +346,7 @@ solving.
 
 .. parsed-literal::
 
-    Writing model in: C:\Users\gayuso\AppData\Local\Temp\pyansys_cartpole_results\6c1d4342-1563-4513-a834-9f94bfcc29ab
+    Writing model in: C:\\Users\\gayuso\\AppData\\Local\\Temp\\pyansys_cartpole_results\\6c1d4342-1563-4513-a834-9f94bfcc29ab
     
 
 We train the learner:
