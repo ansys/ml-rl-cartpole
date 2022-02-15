@@ -1,7 +1,11 @@
 import numpy as np
-import gym
 import os
 import logging
+from matplotlib import pyplot as plt
+import collections
+from IPython.display import clear_output
+
+import gym
 
 
 def basic_diagnostics(episode, steps, r_tot, r_max, r_ave, r_ave_max, steps_tot):
@@ -107,7 +111,7 @@ def run(
 
             logging.info(
                 f"Action: {a:2.0f}\tReward: {r:3.0f}\tStep: {steps:3.0f}\t"
-                f"Total reward: {r_tot:3.0f}\tTheta: {theta:12.6f}\tVelocity: {velo:12.6f}\tReason: {reason}"
+                f"Total reward: {r_tot:3.0f}\tTheta: {theta:12.6f}\tVelocity: {velo:12.6f}"
             )
 
         steps_tot += steps
@@ -134,3 +138,35 @@ def run(
         learner.save(output_path, output_name)
         np.save(os.path.join(output_path, output_name + "_master.npy"), master_results)
     return episode_final, r_max, r_tot, r_ave, r_ave_max, steps_tot
+
+
+from IPython.display import clear_output
+
+
+class LivePlotter:
+    def __init__(self):
+        self.data = collections.defaultdict(list)
+        self.figsize=(18,8)
+        self.title='Training History'
+        self.figure, self.ax = plt.subplots(1, figsize=self.figsize)
+        
+    def live_plot(self, episode, steps, r_tot, r_max, r_ave, r_ave_max, steps_tot):
+        self.data['current'].append(r_tot)
+        self.data['average'].append(r_ave)
+        
+        clear_output(wait=True)
+        plt.plot(self.data['current'], label='current', color='orange', linestyle='dashed')
+        plt.plot(self.data['average'], label='average', color='blue', linestyle='-')
+
+        if r_ave > 196:
+            plt.figure(1).text(0.95, 0.05, 'Success!', fontsize=50, color='gray', ha='right', va='bottom', alpha=0.5)
+            
+        plt.title(self.title)
+        plt.grid(True)
+        plt.xlabel('episode')
+        plt.ylabel('reward')
+        if len(self.data['current']) == 1:
+            plt.legend(loc='lower right') # the plot evolves to the right
+        plt.ylim([0,200])
+        plt.xlim([0,300])
+        plt.show();
