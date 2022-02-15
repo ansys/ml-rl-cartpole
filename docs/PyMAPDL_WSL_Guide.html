@@ -1,0 +1,713 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ANSYS on WSL and docker &#8212; ML-RL-Cartpole-Pyansys 0.60.dev0 documentation</title>
+    
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/thebelab-helper.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><style>
+    .navbar-light {
+        background-color: black !important;
+    }
+</style>
+
+<div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="https://docs.pyansys.com/">
+  <img src="_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" >
+      <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+    </span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="ML-RL-notebook.html">
+  Reinforced Machine Learning using MAPDL: Cartpole Simulation
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/pymapdl" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+    
+
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#running-ansys-in-wsl">
+   Running ANSYS in WSL
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#install-wsl2">
+     Install WSL2
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#install-centos7-wsl-distribution">
+     Install CentOS7 WSL Distribution
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#install-ansys-in-wsl-centos7">
+     Install ANSYS in WSL CentOS7
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#prerequisites">
+       Prerequisites
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#install-ansys">
+       Install ANSYS
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#post-installation-setup">
+     Post installation setup
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#opening-ports">
+       Opening ports
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#setting-up-an-environmental-variable-in-wsl-that-points-to-windows-host-license-server">
+       Setting up an environmental variable in WSL that points to Windows Host License Server
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#running-ansys-in-a-local-docker">
+   Running ANSYS in a local docker
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#launch-docker-with-upf-capabilities">
+     Launch docker with UPF capabilities:
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#notes">
+     Notes
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-useful-stuff">
+   Other useful stuff
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#other-ansys-installation-flags">
+     Other ANSYS installation flags
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#licserverinfo">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         -licserverinfo
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#lang">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         -lang
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#productfile">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         -productfile
+        </span>
+       </code>
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#regarding-ips-in-wsl-and-windows-host">
+     Regarding IPs in WSL and Windows host
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#theory">
+       Theory:
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#reality">
+       Reality
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#disabling-firewall-on-wsl-ethernet">
+     Disabling Firewall on WSL Ethernet
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#windows-10-port-forwarding">
+     Windows 10 Port forwarding
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#link-ports-between-wsl-and-windows">
+       Link ports between WSL and Windows:
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#powershell-command-to-view-all-forwards">
+       PowerShell command to view all forwards
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#delete-port-forwarding">
+       Delete port forwarding
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#reset-windows-network-adapters">
+     Reset windows network adapters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#restart-wsl-service">
+     Restart WSL service
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#kill-all-the-processes-with-given-name">
+     Kill all the processes with given name
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#install-xvfb-in-centos7">
+     Install xvfb in CentOS7
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   Notes
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <blockquote>
+<div></div></blockquote>
+<div class="section" id="ansys-on-wsl-and-docker">
+<span id="ref-guide-wsl"></span><h1>ANSYS on WSL and docker<a class="headerlink" href="#ansys-on-wsl-and-docker" title="Permalink to this headline">¶</a></h1>
+<p>This guide shows you how to use Ansys products, more specifically PyMAPDL, in the Windows Subsystem for Linux (WSL).
+WSL is a compatibility layer for running Linux binary executables natively on Windows 10, Windows 11, and Windows Server 2019
+(<a class="reference external" href="https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux">Wikipedia-WSL</a>).</p>
+<p>This guide walks you through the installation of WSL in Windows, and shows how to use it together with ANSYS, PyMAPDL and docker.</p>
+<p>For more information about WSL please visit <a class="reference external" href="https://docs.microsoft.com/en-us/windows/wsl/about">What is the Windows Subsystem for Linux?</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Disclaimer:</strong> This guide is still in Alpha state. Please proceed with caution.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This guide hasn’t been tested with a VPN connection.</p>
+</div>
+<div class="section" id="running-ansys-in-wsl">
+<h2>Running ANSYS in WSL<a class="headerlink" href="#running-ansys-in-wsl" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="install-wsl2">
+<h3>Install WSL2<a class="headerlink" href="#install-wsl2" title="Permalink to this headline">¶</a></h3>
+<p>Follow the instructions in the official Microsoft website <a class="reference external" href="https://docs.microsoft.com/en-us/windows/wsl/install/">Install WSL</a> .</p>
+<p>It is recommended you use WSL2 over WSL1.</p>
+</div>
+<div class="section" id="install-centos7-wsl-distribution">
+<h3>Install CentOS7 WSL Distribution<a class="headerlink" href="#install-centos7-wsl-distribution" title="Permalink to this headline">¶</a></h3>
+<p>This is the recommended distribution to work with PyANSYS.</p>
+<p>You can install it using an unofficial WSL distribution from <a class="reference external" href="https://github.com/wsldl-pg/CentWSL/">https://github.com/wsldl-pg/CentWSL/</a> .</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It seems the above project has been discontinued.
+A more updated CentOS distribution can be found in <a class="reference external" href="https://github.com/mishamosher/CentOS-WSL/">https://github.com/mishamosher/CentOS-WSL/</a> , however it has not been tested yet.</p>
+</div>
+<p>You can use Ubuntu if you wish to do so, but it has not been tested yet.</p>
+</div>
+<div class="section" id="install-ansys-in-wsl-centos7">
+<h3>Install ANSYS in WSL CentOS7<a class="headerlink" href="#install-ansys-in-wsl-centos7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="prerequisites">
+<h4>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h4>
+<p>If you are using CentOS 7, before installing ANSYS you need to install some required libraries:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yum install openssl openssh-clients mesa-libGL mesa-libGLU motif libgfortran
+</pre></div>
+</div>
+<p>In case of Ubuntu, please follow the specific instructions in <a class="reference external" href="https://mapdldocs.pyansys.com/getting_started/running_mapdl.html#ubuntu/">Running MAPDL: Ubuntu</a> .</p>
+</div>
+<div class="section" id="install-ansys">
+<h4>Install ANSYS<a class="headerlink" href="#install-ansys" title="Permalink to this headline">¶</a></h4>
+<p>To install ANSYS in WSL Linux, you need to follow the next steps.</p>
+<ol class="arabic">
+<li><p>Download ANSYS Structures image from customer portal (<a class="reference external" href="https://download.ansys.com/Current%20Release">Current Release</a>).
+If you are using windows to download it, you can later copy it from it to WSL (recommended).</p></li>
+<li><p>Decompress the source code file (tar.gz) by using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar xvzf STRUCTURES_2021R2_LINX64.tgz
+</pre></div>
+</div>
+</li>
+<li><p>Install ANSYS by going into the uncompressed folder and type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./INSTALL -silent -install_dir /usr/ansys_inc/ -mechapdl
+</pre></div>
+</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-silent</span></code> : Initiates a silent installation (No GUI).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-install_dir</span> <span class="pre">/path/</span></code> : Specifies the directory to which the product or license
+manager is to be installed.
+If you want to install to the default location, you can omit the <code class="docutils literal notranslate"><span class="pre">-install_dir</span></code> argument.
+The default location is <code class="docutils literal notranslate"><span class="pre">/ansys_inc</span></code> if the symbolic link is set; otherwise, it will default to <code class="docutils literal notranslate"><span class="pre">/usr/ansys_inc</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-&lt;product_flag&gt;</span></code> : Specifies one or more products to install specific products.
+If you omit the -product_flag argument, all products will be installed.
+See the list of valid product_flags in the Chapter 6 in <em>ANSYS Inc. Installation Guides</em> PDF.
+In this case, only mechanical (<cite>-mechapdl</cite>) is needed.</p></li>
+</ul>
+</li>
+</ol>
+<p>You could install it directly in <code class="docutils literal notranslate"><span class="pre">/ansys_inc</span></code> if you wish, or in <code class="docutils literal notranslate"><span class="pre">/usr/ansys_inc</span></code> and then create a symbolic link using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ln -s /usr/ansys_inc /ansys_inc
+</pre></div>
+</div>
+<p>By default, PyMAPDL expects ANSYS executable being in <code class="docutils literal notranslate"><span class="pre">/usr/ansys_inc</span></code>, so whether you install it there or not, it is recommended you link that directory, using symbolic link, to your ANSYS installation directory (<code class="docutils literal notranslate"><span class="pre">/*/ansys_inc</span></code>).</p>
+</div>
+</div>
+<div class="section" id="post-installation-setup">
+<h3>Post installation setup<a class="headerlink" href="#post-installation-setup" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="opening-ports">
+<h4>Opening ports<a class="headerlink" href="#opening-ports" title="Permalink to this headline">¶</a></h4>
+<p><strong>Theory:</strong>
+You should open the ports <code class="docutils literal notranslate"><span class="pre">1055</span></code> and <code class="docutils literal notranslate"><span class="pre">2325</span></code> for the license server communication in <cite>Windows Firewall Advanced</cite>.
+You can see the steps in <a class="reference external" href="https://answers.microsoft.com/en-us/windows/forum/all/how-to-open-port-in-windows-10-firewall/f38f67c8-23e8-459d-9552-c1b94cca579a/">How to open port in Windows 10 Firewall</a> .</p>
+<p><strong>Reality:</strong>
+This works if you want to run a docker image using WSL Linux image to host that docker image.
+The docker image will successfully communicate with the Windows License Server using these ports if using <code class="docutils literal notranslate"><span class="pre">'-p'</span></code> flag when running the docker image and if having those ports open.
+See <a class="reference internal" href="#running-ansys-in-a-local-docker">Running ANSYS in a local docker</a> .</p>
+<p>If you wish to run ANSYS in the CentOS7 image and use the Windows License Server, opening the ports might not work properly, since Windows firewall seems to block all traffic coming from WSL.
+It is recommended (for security purposes), you still try to open <code class="docutils literal notranslate"><span class="pre">1055</span></code> and <code class="docutils literal notranslate"><span class="pre">2325</span></code> ports in the firewall and check if your ANSYS installation can communicate with Windows Hosts.
+If you are having problems after setting the firewall rules, you might have to disable Windows Firewall for the WSL ethernet virtual interface.
+This might pose some unknown side effects and security risk so use it with caution.
+See <a class="reference internal" href="#disabling-firewall-on-wsl-ethernet">Disabling Firewall on WSL Ethernet</a></p>
+</div>
+<div class="section" id="setting-up-an-environmental-variable-in-wsl-that-points-to-windows-host-license-server">
+<h4>Setting up an environmental variable in WSL that points to Windows Host License Server<a class="headerlink" href="#setting-up-an-environmental-variable-in-wsl-that-points-to-windows-host-license-server" title="Permalink to this headline">¶</a></h4>
+<p>Windows host IP is given in the WSL file <code class="docutils literal notranslate"><span class="pre">/etc/hosts</span></code> before the name <code class="docutils literal notranslate"><span class="pre">host.docker.internal</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This <code class="docutils literal notranslate"><span class="pre">host.docker.internal</span></code> definition might not be available if docker is not installed.</p>
+</div>
+<p><strong>Example /etc/hosts/ file</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># This file was automatically generated by WSL. To stop automatic generation of this file, add the following entry to /etc/wsl.conf:</span>
+<span class="c1"># [network]</span>
+<span class="c1"># generateHosts = false</span>
+<span class="m">127</span>.0.0.1       localhost
+<span class="m">127</span>.0.1.1       AAPDDqVK5WqNLve.win.ansys.com   AAPDDqVK5WqNLve
+
+<span class="hll"><span class="m">192</span>.168.0.12    host.docker.internal
+</span><span class="m">192</span>.168.0.12    gateway.docker.internal
+<span class="m">127</span>.0.0.1       kubernetes.docker.internal
+
+<span class="c1"># The following lines are desirable for IPv6 capable hosts</span>
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+</pre></div>
+</div>
+<p>You can add the next lines to you WSL <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file to create an environment variable with that IP:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">winhostIP</span><span class="o">=</span><span class="k">$(</span>grep -m <span class="m">1</span> host.docker.internal /etc/hosts <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span><span class="k">)</span>
+<span class="nb">export</span> <span class="nv">ANSYSLMD_LICENSE_FILE</span><span class="o">=</span><span class="m">1055</span>@<span class="nv">$winhostIP</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="running-ansys-in-a-local-docker">
+<h2>Running ANSYS in a local docker<a class="headerlink" href="#running-ansys-in-a-local-docker" title="Permalink to this headline">¶</a></h2>
+<p>To run a docker image, you need to follow all the previous steps detailed in <a class="reference internal" href="#running-ansys-in-wsl">Running ANSYS in WSL</a> .</p>
+<p>Additionally, to run a docker PyMAPDL image, use the next command:</p>
+<div class="highlight-pwsh notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="n">-e</span> <span class="n">ANSYSLMD_LICENSE_FILE</span><span class="p">=</span><span class="n">1055</span><span class="nv">@host</span><span class="p">.</span><span class="n">docker</span><span class="p">.</span><span class="n">internal</span> <span class="p">-</span><span class="n">-restart</span> <span class="n">always</span> <span class="p">-</span><span class="n">-name</span> <span class="n">mapdl</span> <span class="n">-p</span> <span class="n">50053</span><span class="p">:</span><span class="n">50052</span> <span class="n">docker</span><span class="p">.</span><span class="n">pkg</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">pyansys</span><span class="p">/</span><span class="n">pymapdl</span><span class="p">/</span><span class="n">mapdl</span> <span class="n">-smp</span> <span class="p">&gt;</span> <span class="n">log</span><span class="p">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>Successive runs should restart the container or just delete it and rerun it using:</p>
+<div class="highlight-pwsh notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">stop</span> <span class="n">mapdl</span>
+<span class="n">docker</span> <span class="n">container</span> <span class="n">prune</span>
+
+<span class="n">docker</span> <span class="n">run</span> <span class="n">-e</span> <span class="n">ANSYSLMD_LICENSE_FILE</span><span class="p">=</span><span class="n">1055</span><span class="nv">@host</span><span class="p">.</span><span class="n">docker</span><span class="p">.</span><span class="n">internal</span> <span class="p">-</span><span class="n">-restart</span> <span class="n">always</span> <span class="p">-</span><span class="n">-name</span> <span class="n">mapdl</span> <span class="n">-p</span> <span class="n">50053</span><span class="p">:</span><span class="n">50052</span> <span class="n">docker</span><span class="p">.</span><span class="n">pkg</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">pyansys</span><span class="p">/</span><span class="n">pymapdl</span><span class="p">/</span><span class="n">mapdl</span> <span class="n">-smp</span> <span class="p">&gt;</span> <span class="n">log</span><span class="p">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>This will create a log file (<code class="docutils literal notranslate"><span class="pre">log.txt</span></code>) in your current directory location.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please make sure your ports (<code class="docutils literal notranslate"><span class="pre">50053</span></code>) are open in your firewall.</p>
+</div>
+<p>It is recommended to do a script file (batch <code class="docutils literal notranslate"><span class="pre">'.bat'</span></code> or powershell <code class="docutils literal notranslate"><span class="pre">'.ps'</span></code> files) to run the above commands, all at once.</p>
+<p>Please do notice that we are mapping the iWSL nternal gRPC port (<code class="docutils literal notranslate"><span class="pre">50052</span></code>) to a different Windows host port (<code class="docutils literal notranslate"><span class="pre">50053</span></code>) to avoid ports conflicts.</p>
+<p>This image is ready to be connected to from WSL or Windows Host but the port and IP should be specified as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.mapdl.core</span> <span class="kn">import</span> <span class="n">launch_mapdl</span>
+
+<span class="n">mapdl</span> <span class="o">=</span> <span class="n">launch_mapdl</span><span class="p">(</span><span class="n">ip</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">50053</span><span class="p">,</span> <span class="n">start_instance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.mapdl.core</span> <span class="kn">import</span> <span class="n">Mapdl</span>
+
+<span class="n">mapdl</span> <span class="o">=</span> <span class="n">Mapdl</span><span class="p">(</span><span class="n">ip</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">50053</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also specified them using environment variables which are read when launching the MAPDL instance.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYMAPDL_START_INSTANCE</span><span class="o">=</span>False
+<span class="nb">export</span> <span class="nv">PYMAPDL_PORT</span><span class="o">=</span><span class="m">50053</span>
+<span class="nb">export</span> <span class="nv">PYMAPDL_IP</span><span class="o">=</span><span class="m">127</span>.0.0.1
+</pre></div>
+</div>
+<div class="section" id="launch-docker-with-upf-capabilities">
+<h3>Launch docker with UPF capabilities:<a class="headerlink" href="#launch-docker-with-upf-capabilities" title="Permalink to this headline">¶</a></h3>
+<p>In case you want to specify a custom Python UPF routine, you need to have the environment variables <code class="docutils literal notranslate"><span class="pre">ANS_USER_PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">ANS_USE_UPF</span></code> defined.
+The former should be equal to the path where the UPF routines are located, and the latter should be equal to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>.</p>
+<p>In the WSL you can do this using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">ANS_USER_PATH</span><span class="o">=</span>/home/user/UPFs <span class="c1"># Use your own path to your UPF files.</span>
+<span class="nb">export</span> <span class="nv">ANS_USE_UPF</span><span class="o">=</span>TRUE
+</pre></div>
+</div>
+<p>Then you can run the docker image using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -e <span class="nv">ANSYSLMD_LICENSE_FILE</span><span class="o">=</span><span class="m">1055</span>@host.docker.internal -e <span class="nv">ANS_USER_PATH</span><span class="o">=</span><span class="s1">&#39;/ansys_jobs/upf&#39;</span> -e <span class="nv">ANS_USE_UPF</span><span class="o">=</span><span class="s1">&#39;TRUE&#39;</span> --restart always --name mapdl -p <span class="m">50053</span>:50052 docker.pkg.github.com/pyansys/pymapdl/mapdl -smp  <span class="m">1</span>&gt;log.txt
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The use of UPFs with docker images or PyMAPDL is still in Alpha state.</p>
+</div>
+</div>
+<div class="section" id="notes">
+<h3>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h3>
+<p>The specified IP (<code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>) in <a class="reference internal" href="#running-ansys-in-a-local-docker">Running ANSYS in a local docker</a> is the IP of WSL CentOS from the WSL perspective.
+Whereas the Windows host IP is (normally) <code class="docutils literal notranslate"><span class="pre">127.0.1.1</span></code>.
+Docker build the images (PyMAPDL images) using the WSL distribution as base.
+Hence we have a PyMAPDL running on a Linux WSL distribution which is running on a Windows host.
+Since the docker image shares resources with WSL, it does also share the internal IP with the WSL distribution.</p>
+</div>
+</div>
+<div class="section" id="other-useful-stuff">
+<h2>Other useful stuff<a class="headerlink" href="#other-useful-stuff" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="other-ansys-installation-flags">
+<h3>Other ANSYS installation flags<a class="headerlink" href="#other-ansys-installation-flags" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="licserverinfo">
+<h4><code class="docutils literal notranslate"><span class="pre">-licserverinfo</span></code><a class="headerlink" href="#licserverinfo" title="Permalink to this headline">¶</a></h4>
+<p>Obtained from:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./INSTALL --help
+</pre></div>
+</div>
+<p>Or:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat ./INSTALL
+</pre></div>
+</div>
+<p>and inspecting the last lines of the <code class="docutils literal notranslate"><span class="pre">INSTALL</span></code> file.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">-licserverinfo</span></code> : Specifies information to be used by the client for the license server.
+Valid only in conjunction with a silent installation (INSTALL).</p>
+<p>The format is:</p>
+<ul>
+<li><p>For single license server:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-licserverinfo LI_port_number:FLEXlm_port_number:hostname
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./INSTALL -silent -install_dir /ansys_inc/ -mechapdl -licserverinfo <span class="m">2325</span>:1055:winhostIP
+</pre></div>
+</div>
+</li>
+<li><p>Three license servers:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-licserverinfo LI_port_number:FLEXlm_port_number:hostname1,hostname2,hostname3
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./INSTALL -silent -install_dir /ansys_inc/ -mechapdl -licserverinfo <span class="m">2325</span>:1055:abc,def,xyz
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="lang">
+<h4><code class="docutils literal notranslate"><span class="pre">-lang</span></code><a class="headerlink" href="#lang" title="Permalink to this headline">¶</a></h4>
+<p>Specifies a language to use for the products installation.</p>
+</div>
+<div class="section" id="productfile">
+<h4><code class="docutils literal notranslate"><span class="pre">-productfile</span></code><a class="headerlink" href="#productfile" title="Permalink to this headline">¶</a></h4>
+<p>You can specify an options file that lists the products you want to install.
+To do so, you must provide a full path to a file containing desired products.</p>
+</div>
+</div>
+<div class="section" id="regarding-ips-in-wsl-and-windows-host">
+<h3>Regarding IPs in WSL and Windows host<a class="headerlink" href="#regarding-ips-in-wsl-and-windows-host" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="theory">
+<h4>Theory:<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h4>
+<p>You should be able to access Windows host using IP specified in <code class="docutils literal notranslate"><span class="pre">/etc/hosts</span></code> which normally is <code class="docutils literal notranslate"><span class="pre">127.0.1.1</span></code>. This means that the local WSL IP is <code class="docutils literal notranslate"><span class="pre">127.0.1.1</span></code>.</p>
+</div>
+<div class="section" id="reality">
+<h4>Reality<a class="headerlink" href="#reality" title="Permalink to this headline">¶</a></h4>
+<p>It is almost impossible to use <code class="docutils literal notranslate"><span class="pre">127.0.1.1</span></code> for connecting to the Windows host. However it is possible to use <code class="docutils literal notranslate"><span class="pre">host.docker.internal</span></code> hostname in the same file (<code class="docutils literal notranslate"><span class="pre">/etc/hosts</span></code>).
+This is an IP which is randomly allocated, which is an issue when you define the License Server. However if you update the <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> as mentioned before, this issue is solved.</p>
+</div>
+</div>
+<div class="section" id="disabling-firewall-on-wsl-ethernet">
+<h3>Disabling Firewall on WSL Ethernet<a class="headerlink" href="#disabling-firewall-on-wsl-ethernet" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-pwsh notranslate"><div class="highlight"><pre><span></span><span class="nb">Set-NetFirewallProfile</span> <span class="n">-DisabledInterfaceAliases</span> <span class="s2">&quot;vEthernet (WSL)&quot;</span>
+</pre></div>
+</div>
+<p>This will show a notification, but this not:</p>
+<div class="highlight-pwsh notranslate"><div class="highlight"><pre><span></span><span class="n">powershell</span><span class="p">.</span><span class="n">exe</span> <span class="n">-Command</span> <span class="s2">&quot;Set-NetFirewallProfile -DisabledInterfaceAliases \&quot;</span><span class="n">vEthernet</span> <span class="p">(</span><span class="n">WSL</span><span class="p">)\</span><span class="s2">&quot;&quot;</span>
+</pre></div>
+</div>
+<p>Link: <a class="reference external" href="https://github.com/cascadium/wsl-windows-toolbar-launcher#firewall-rules/">https://github.com/cascadium/wsl-windows-toolbar-launcher#firewall-rules/</a></p>
+</div>
+<div class="section" id="windows-10-port-forwarding">
+<h3>Windows 10 Port forwarding<a class="headerlink" href="#windows-10-port-forwarding" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="link-ports-between-wsl-and-windows">
+<h4>Link ports between WSL and Windows:<a class="headerlink" href="#link-ports-between-wsl-and-windows" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-pwsh notranslate"><div class="highlight"><pre><span></span><span class="n">netsh</span> <span class="n">interface</span> <span class="n">portproxy</span> <span class="n">add</span> <span class="n">v4tov4</span> <span class="n">listenport</span><span class="p">=</span><span class="n">1055</span> <span class="n">listenaddress</span><span class="p">=</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span> <span class="n">connectport</span><span class="p">=</span><span class="n">1055</span> <span class="n">connectaddress</span><span class="p">=</span><span class="n">XXX</span><span class="p">.</span><span class="n">XX</span><span class="p">.</span><span class="n">XX</span><span class="p">.</span><span class="n">XX</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="powershell-command-to-view-all-forwards">
+<h4>PowerShell command to view all forwards<a class="headerlink" href="#powershell-command-to-view-all-forwards" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-pwsh notranslate"><div class="highlight"><pre><span></span><span class="n">netsh</span> <span class="n">interface</span> <span class="n">portproxy</span> <span class="n">show</span> <span class="n">v4tov4</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="delete-port-forwarding">
+<h4>Delete port forwarding<a class="headerlink" href="#delete-port-forwarding" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-pwsh notranslate"><div class="highlight"><pre><span></span><span class="n">netsh</span> <span class="n">interface</span> <span class="n">portproxy</span> <span class="n">delete</span> <span class="n">v4tov4</span> <span class="n">listenport</span><span class="p">=</span><span class="n">1055</span> <span class="n">listenaddres</span><span class="p">=</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span> <span class="n">protocol</span><span class="p">=</span><span class="n">tcp</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="reset-windows-network-adapters">
+<h3>Reset windows network adapters<a class="headerlink" href="#reset-windows-network-adapters" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-pwsh notranslate"><div class="highlight"><pre><span></span><span class="n">netsh</span> <span class="n">int</span> <span class="n">ip</span> <span class="n">reset</span> <span class="n">all</span>
+<span class="n">netsh</span> <span class="n">winhttp</span> <span class="n">reset</span> <span class="n">proxy</span>
+<span class="n">ipconfig</span> <span class="p">/</span><span class="n">flushdns</span>
+<span class="n">netsh</span> <span class="n">winsock</span> <span class="n">reset</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="restart-wsl-service">
+<h3>Restart WSL service<a class="headerlink" href="#restart-wsl-service" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-pwsh notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Service</span> <span class="n">LxssManager</span> <span class="p">|</span> <span class="nb">Restart-Service</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="kill-all-the-processes-with-given-name">
+<h3>Kill all the processes with given name<a class="headerlink" href="#kill-all-the-processes-with-given-name" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-pwsh notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Process</span> <span class="s2">&quot;ANSYS212&quot;</span> <span class="p">|</span> <span class="nb">Stop-Process</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-xvfb-in-centos7">
+<h3>Install xvfb in CentOS7<a class="headerlink" href="#install-xvfb-in-centos7" title="Permalink to this headline">¶</a></h3>
+<p>It is needed if we want to replicate the CI/CD behaviour (See <code class="docutils literal notranslate"><span class="pre">.ci</span></code> folder).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yum install xorg-x11-server-Xvfb
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>Notes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>The PyMAPDL does only work for shared-memory parallel (SMP) when running it in WSL, hence this flag (<code class="docutils literal notranslate"><span class="pre">-smp</span></code>) should be included.</p></li>
+<li><p>Remember there are some incompatibilities between VPN and INTEL MPI. In that case use <code class="docutils literal notranslate"><span class="pre">-mpi</span> <span class="pre">msmpi</span></code> flag when calling mapdl.</p></li>
+</ul>
+</div>
+</div>
+
+
+              </div>
+              
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>
