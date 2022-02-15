@@ -77,7 +77,7 @@ class CartPoleMapdlSimple:
 
         self._youngs = 20.e9           # Polycarbonate
         self._poisson = 0.34
-        self._density = 1000.
+        self._density = 0.1/(np.pi*(self._pole.radius**2)*self._pole.length)
 
         self._cart_mass = self._preferences.get('cart_mass', 1.)
 
@@ -152,8 +152,8 @@ class CartPoleMapdlSimple:
         mapdl.mp('NUXY', self._ids['pole'], self._poisson)         # Poisson's ratio
         mapdl.mp('DENS', self._ids['pole'], self._density)         # Density
 
-        mapdl.sectype(self._ids['pole'], 'BEAM', 'RECT')
-        mapdl.secdata(self._pole.radius, self._pole.radius)
+        mapdl.sectype(self._ids['pole'], 'BEAM', 'CSOLID')
+        mapdl.secdata(self._pole.radius)
 
         mapdl.n(self._nodes['beam_begin'])
         mapdl.n(self._nodes['beam_end'],
@@ -214,8 +214,10 @@ class CartPoleMapdlSimple:
 
         self._cur_time_point += 1
         self._force_dir = force_dir
-        mapdl.acel(0., 9.80665, 0.)         # the global cs is accelerated upwards (so a gravity is felt downwards)
+
+        mapdl.acel(0.0, 9.80665, 0.)         # the global cs is accelerated upwards (so a gravity is felt downwards)
         mapdl.f(self._nodes['beam_begin'], 'fx', self._force_dir * self._force_mag)
+
         mapdl.time(self._cur_time_point * self._D_time)
         mapdl.solve()
         self._query_state()
@@ -224,15 +226,9 @@ class CartPoleMapdlSimple:
         self._cart_pos = self._cart_pos_0 + mapdl.get_value('node', 1, 'u', 'x')
         self._cart_velocity = mapdl.get_value('node', 1, 'v', 'x')
 
-        #Original
-        # self._theta_deg = self._theta_deg_0 - np.degrees(mapdl.get_value('elem', 11, 'SMISC', 66))
-
-        # Modification
-        n11x = mapdl.get_value('node', 11, 'u', 'x')
         n1x = mapdl.get_value('node', 1, 'u', 'x')
-
-        thetha = np.degrees(np.arcsin((n11x-n1x)/self._pole.length))
-        self._theta_deg = self._theta_deg_0 - thetha
+        theta = np.degrees(np.arctan2(n1x, 0.1))
+        self._theta_deg = self._theta_deg_0 - theta
 
         self._pole_velocity = mapdl.get_value('node', 10, 'v', 'sum')
         self._reported_time_point = int(np.round(mapdl.get_value('active', 0, 'SET', 'LSTP')))
