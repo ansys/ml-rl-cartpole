@@ -22,7 +22,7 @@ Link: :ref:`ref_ml_rl_cartpole`
 Contributions
 -------------
 
-Feel free to contribute in [ML_RL_Cartpole repositoyr](https://github.com/pyansys/ML_RL_Cartpole).
+Feel free to contribute in `ML_RL_Cartpole repository <https://github.com/pyansys/ML_RL_Cartpole>`_.
 
 
 
