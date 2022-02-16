@@ -1,11 +1,21 @@
   .. _ref_ml_rl_cartpole:
 
 
-Reinforced Machine Learning using MAPDL: Cartpole Simulation
-============================================================
+Reinforcement Machine Learning using PyMAPDL: Cartpole Simulation
+=================================================================
 
-In this notebook, a reinforced machine learning example using MAPDL
-through PyMAPDL is demonstrated.
+This notebook demonstrates a reinforcement machine learning example using MAPDL
+through PyMAPDL.
+
+This example assumes you have cloned the `ml-rl-cartpole
+<https://github.com/pyansys/ml-rl-cartpole>`_ repository and are in the correct
+directory with:
+
+.. code::
+
+   git clone https://github.com/pyansys/ml-rl-cartpole
+   cd ml-rl-cartpole
+
 
 .. code:: ipython3
 
@@ -41,7 +51,7 @@ Background: Markov Decision Process
 In a Markov Decision Process we have an agent immersed in an
 environment. At any given time, the agent finds itself in a state and it
 must select one of the available actions. Upon taking an action, the
-environment reponds by assigning a reward and transitioning the agent to
+environment responds by assigning a reward and transitioning the agent to
 a successor state. This loop continues until a terminal state is
 reached. It is interesting to ask: could we learn to act optimally in
 such a setup? could we learn to select sequences of actions that
@@ -491,7 +501,7 @@ the entirety of the episode (200 steps).
     agent.start_state(s)
     done, r_tot = False, 0
     
-    # print("Action - " + " - ".join([each.center(20) for each in labels])) # Uncoment to print each step
+    # print("Action - " + " - ".join([each.center(20) for each in labels])) # Uncomment to print each step
     
     while not done:
         a = agent.next_action()
@@ -525,7 +535,6 @@ Try resuming a trained neural network of your own!
 References
 ----------
 
--  The DQN Agent - TensofFlow.org -
-   https://www.tensorflow.org/agents/tutorials/0_intro_rl#the_dqn_agent
--  Human-level control through deep reinforcement learning - V Mnih et
-   al. - https://www.nature.com/articles/nature14236
+-  `The DQN Agent - TensofFlow.org <https://www.tensorflow.org/agents/tutorials/0_intro_rl#the_dqn_agent>`_
+   
+-  `Human-level control through deep reinforcement learning - V Mnih et al. <https://www.nature.com/articles/nature14236>`_
