@@ -1,7 +1,8 @@
 Reinforcement ML using PyMAPDL: Cart-Pole Simulation
 ====================================================
 This notebook demonstrates a reinforcement machine learning example using MAPDL
-through PyMAPDL.  See the example notebook at `PyMAPDL Cart-Pole <https://pyansys.github.io/ml-rl-cartpole/ml-rl-notebook.html`_
+through PyMAPDL.  See the example notebook at `PyMAPDL Cart-Pole
+<https://pyansys.github.io/ml-rl-cartpole/ml-rl-notebook.html>`_
 
 .. image:: https://github.com/pyansys/ml-rl-cartpole/raw/main/doc/source/images/openai.gif
    :target: https://github.com/pyansys/ml-rl-cartpole/blob/main/notebook.ipynb
