@@ -1,8 +1,8 @@
 
-  .. _ref_wsl_guide_index:
+  .. _ref_index:
 
 Content
-========
+=======
 
 .. toctree::
     :hidden:
@@ -13,20 +13,15 @@ Content
 
 Introduction
 ------------
-
-This document the code for the Machine Learning example Cartpole which uses reinforced learning techniques.
-
-Link: :ref:`ref_ml_rl_cartpole`
+This document shows the machine learning cartpole example which uses reinforcement learning to
+train a neural network to balance a cartpole using PyMAPDL. See :ref:`ref_ml_rl_cartpole`.
 
 
 Contributions
 -------------
-
-Feel free to contribute in `ML_RL_Cartpole repository <https://github.com/pyansys/ML_RL_Cartpole>`_.
-
+Feel free to contribute to `ml-rl-cartpole repository <https://github.com/pyansys/ml-rl-cartpole>`_.
 
 
 License
 -------
-
-No Express or Implied Warranty. 
+This example is licened under the `MIT License <https://raw.githubusercontent.com/pyansys/ml-rl-cartpole/main/LICENSE>`_.
