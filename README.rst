@@ -5,7 +5,7 @@ through PyMAPDL.
 
 .. image:: https://github.com/pyansys/ml-rl-cartpole/raw/main/doc/source/images/openai.gif
    :target: https://github.com/pyansys/ml-rl-cartpole/blob/main/notebook.ipynb
-   :alt: pyvista
+   :alt: CartPole ML
 
 
 Installation
