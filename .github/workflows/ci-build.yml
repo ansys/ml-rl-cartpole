@@ -1,0 +1,82 @@
+name: Documentation Build
+
+on:
+  pull_request:
+  push:
+    tags:
+      - "*"
+    branches:
+      - main
+
+
+jobs:
+  docs_build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: 3.9
+
+      - name: Install doc requirements
+        run: |
+          sudo apt update
+          sudo apt-get install -y texlive-latex-extra latexmk
+          pip install -r requirements_docs.txt --disable-pip-version-check
+
+      - name: Build HTML Documentation
+        run: |
+          pip install -r requirements_docs.txt --disable-pip-version-check
+          make -C doc html SPHINXOPTS="-W"
+          touch doc/build/html/.nojekyll
+  
+      # - name: Build PDF Documentation
+      #   run: make -C doc latexpdf
+
+      - name: Upload HTML Documentation
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Documentation
+          path: doc/build/html
+          retention-days: 7
+
+      # - name: Upload PDF Documentation
+      #   uses: actions/upload-artifact@v2.2.4
+      #   with:
+      #     name: Documentation
+      #     path: doc/build/latex/*.pdf
+      #     retention-days: 7
+
+      - name: Deploy to gh-pages
+        if: github.ref == 'refs/heads/main'
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: doc/build/html
+          CLEAN: true
+          SINGLE-COMMIT: true
+
+  # Release:
+  #   if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
+  #   needs: docs_build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v1
+  #       with:
+  #         python-version: 3.9
+
+  #     - uses: actions/download-artifact@v2
+
+  #     - name: Display structure of downloaded files
+  #       run: ls -R
+
+  #     - name: Release
+  #       uses: softprops/action-gh-release@v1
+  #       with:
+  #         files: |
+  #           ./**/*.pdf
