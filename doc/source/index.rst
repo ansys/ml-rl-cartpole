@@ -2,7 +2,7 @@
 
 .. include:: ../../README.rst
 
-**Content**
+**Table of Contents**
 
 .. toctree::
     :maxdepth: 2
