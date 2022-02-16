@@ -25,6 +25,7 @@ extensions = [
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
     "sphinx_copybutton",
+    'IPython.sphinxext.ipython_console_highlighting'
 ]
 
 # Intersphinx mapping
