@@ -1,4 +1,4 @@
-  .. _ref_ml_rl_cartpole:
+.. _ref_ml_rl_cartpole:
 
 
 Reinforcement Machine Learning using PyMAPDL: Cartpole Simulation
