@@ -103,7 +103,7 @@ html_theme = "pyansys_sphinx_theme"
 html_logo = pyansys_logo_black
 html_short_title = html_title = "ML-RL-Cartpole"
 html_theme_options = {
-    "github_url": "https://pyansys.github.io/ml-rl-cartpole",
+    "github_url": "https://github.com/pyansys/ml-rl-cartpole",
     "show_prev_next": False,
     "show_breadcrumbs": True,
     "additional_breadcrumbs": [
