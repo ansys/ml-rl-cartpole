@@ -40,6 +40,10 @@ _autosummary
 *,cover
 test-output.xml
 
+# virtual environment
+venv/
+.venv/
+
 \#*
 .\#*
 /.ipynb_checkpoints
