@@ -21,7 +21,7 @@ class CartPoleEnv(gym.Env, utils.EzPickle):
         self.action_space = spaces.Discrete(2)
         self.observation_space = spaces.Box(low=np.array([-5, -np.inf, -180., -np.inf]),
                                             high=np.array([5, np.inf, 180., np.inf]),
-                                            dtype=np.float32)
+                                            dtype=np.double)
 
         self.steps_beyond_done = None
 

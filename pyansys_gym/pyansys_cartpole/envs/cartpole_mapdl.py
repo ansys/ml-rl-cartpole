@@ -300,7 +300,7 @@ class CartPoleMapdl:
 
     def get_state(self):
         return np.array([self._cart_pos, self._cart_velocity, self._theta_deg, self._pole_velocity],
-                        dtype=np.float)
+                        dtype=np.double)
 
     def is_over(self):
         return self._finished
