@@ -14,15 +14,19 @@ env:
 jobs:
 
   code-style:
-    name: "Code style"
+    name: Code style
     runs-on: ubuntu-latest
     steps:
-      - name: PyAnsys code style checks
-        uses: pyansys/actions/code-style@v3
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
-          cache: 'pip'
-          cache-dependency-path: 'requirements_docs.txt'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip tox
+      - name: Test with tox
+        run: tox -e style
 
 
   docs_build:
