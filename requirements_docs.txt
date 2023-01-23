@@ -8,5 +8,5 @@ sphinx-copybutton==0.5.1
 # Library dependencies
 gym==0.26.2
 numpy==1.24.1
-keras==2.2.4
+keras==2.11.0
 tensorflow==2.11.0
