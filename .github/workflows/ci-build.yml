@@ -21,11 +21,12 @@ jobs:
         uses: pyansys/actions/code-style@v3
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
+          cache-dependency-path: 'pyansys_rl/requirements.txt, pyansys_gym/ requirements.txt'
 
 
   docs_build:
     runs-on: ubuntu-20.04
-
+    needs: [code-style]
     steps:
       - name: "Install Git and checkout project"
         uses: actions/checkout@v3
