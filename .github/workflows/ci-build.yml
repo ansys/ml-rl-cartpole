@@ -8,18 +8,32 @@ on:
     branches:
       - main
 
+env:
+  MAIN_PYTHON_VERSION: '3.9'
 
 jobs:
+
+  code-style:
+    name: "Code style"
+    runs-on: ubuntu-latest
+    steps:
+      - name: PyAnsys code style checks
+        uses: pyansys/actions/code-style@v3
+        with:
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}
+
+
   docs_build:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v2
+      - name: "Install Git and checkout project"
+        uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v2.2.2
+      - name: "Setup Python"
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}
 
       - name: Install doc requirements
         run: |
