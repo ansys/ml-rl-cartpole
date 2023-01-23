@@ -21,10 +21,11 @@ jobs:
         uses: pyansys/actions/code-style@v3
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
-          cache-dependency-path: 'pyansys_rl/requirements.txt, pyansys_gym/ requirements.txt'
+          cache-dependency-path: ['pyansys_rl/requirements.txt', 'pyansys_gym/ requirements.txt']
 
 
   docs_build:
+    name: "Documentation building"
     runs-on: ubuntu-20.04
     needs: [code-style]
     steps:
