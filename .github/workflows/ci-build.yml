@@ -21,6 +21,7 @@ jobs:
         uses: pyansys/actions/code-style@v3
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
+          cache: 'pip'
           cache-dependency-path: 'requirements_docs.txt'
 
 
