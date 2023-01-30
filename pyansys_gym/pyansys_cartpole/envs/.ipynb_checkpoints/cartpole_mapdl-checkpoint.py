@@ -49,8 +49,11 @@
 from collections import namedtuple
 import numpy as np
 import re
-import ansys
-# mapdl = ansys.Mapdl()
+from ansys.mapdl.core import launch_mapdl
+mapdl = launch_mapdl(loglevel='ERROR', verbose=False, port=50056)
+
+# from ansys.mapdl.core import launch_mapdl
+# mapdl = launch_mapdl()
 
 
 class CartPoleMapdl:

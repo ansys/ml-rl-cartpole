@@ -1,7 +1,6 @@
-import gym
-from gym import error, spaces
-from gym import utils
-from gym.utils import seeding
+import gymnasium as gym
+from gymnasium import spaces
+from gymnasium import utils
 import logging
 import numpy as np
 from . import CartPoleMapdlSimple
@@ -39,7 +38,7 @@ class CartPoleEnv(gym.Env, utils.EzPickle):
         reward = self._get_reward()
         ob = self.env.get_state()
         episode_over = self.status
-        return ob, reward, episode_over, {}
+        return ob, reward, episode_over, False, {}
 
     def _take_action(self, action):
         self.env.act(CartPoleEnv.actions[action])
@@ -57,7 +56,7 @@ class CartPoleEnv(gym.Env, utils.EzPickle):
     def reset(self):
         self.steps_beyond_done = None
         self.env.reset()
-        return self.env.get_state()
+        return self.env.get_state(), {}
 
     def _render(self, mode='human', close=False):
         pass

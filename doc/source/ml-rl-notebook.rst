@@ -30,7 +30,7 @@ directory with:
     import numpy as np
     import matplotlib
     
-    import gym
+    import gymnasium as gym
     import pyansys_cartpole
     
     np.set_printoptions(precision=4, suppress=True)
@@ -133,11 +133,12 @@ equations <https://github.com/openai/gym/blob/master/gym/envs/classic_control/ca
     n_episodes = 3
     for i in range(n_episodes):
         print('*' * 30, f'Episode: {i+1}', '*' * 30)
-        cur_state = env.reset()
+        cur_state, info = env.reset()
         done, r_tot = False, 0
         while not done:
             action = np.random.choice([0, 1])
-            next_state, reward, done, info = env.step(action)
+            next_state, reward, terminated, truncated, info = env.step(action)
+            done = truncated or terminated
             print('State:', cur_state, '\tAction:', '--->' if action else '<---', '\tReward: ', reward)
             cur_state, r_tot = next_state, r_tot + reward
         print('Episode Reward:', r_tot)
@@ -406,7 +407,7 @@ and thus is not likely to succeed at the balancing task.
     
     agent = RandomAgent(env.action_space.n)
     
-    s = env.reset()
+    s, info = env.reset()
     
     labels = ["Cart position", "Cart velocity", "Theta angle", "Pole velocity"]
     
@@ -440,7 +441,8 @@ should not stay balanced for long.
     
     while not done:
         a = agent.next_action()
-        s, r, done, _ = env.step(a)
+        s, r, terminated, truncated, _ = env.step(a)
+        done = truncated or terminated
         agent.next_reading(s, r, done, False)
         print('--->' if a else '<--- ', ' - ', " - ".join([ f"{each:6.3}".center(20) for each in s]))
         r_tot += r
@@ -476,7 +478,7 @@ starting point for the system!
     n_actions = 2
     agent = TrainedAgent(output_path_pyansys, output_name_pyansys, env.action_space.n, env.observation_space.shape)
 
-    s = env.reset()
+    s, info = env.reset()
     print(" - ".join([each.center(20) for each in labels]))
     print(" - ".join([ f"{each:6.3}".center(20) for each in s]))
 
@@ -505,7 +507,8 @@ the entirety of the episode (200 steps).
     
     while not done:
         a = agent.next_action()
-        s, r, done, _ = env.step(a)
+        s, r, terminated, truncated, _ = env.step(a)
+        done = truncated or terminated
         agent.next_reading(s, r, done, False)
         # print('---> ' if a else '<--- ', ' - ', " - ".join([ f"{each:6.3}".center(20) for each in s])) # Uncomment to print each step
         r_tot += r
