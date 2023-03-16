@@ -106,7 +106,8 @@ class ClassicDQNLearner:
                  output_path=None, output_name=None):
         self.a_shape = 1
         self.n_actions = env_db.action_space.n
-        self.s_formatter = StateFormatter(env_db.reset().shape[0])
+        s0, info = env_db.reset()
+        self.s_formatter = StateFormatter(s0.shape[0])
         self.n_mini_batch = n_mini_batch
         self.epsilon = epsilon
         self.gamma = gamma

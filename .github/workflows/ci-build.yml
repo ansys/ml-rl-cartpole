@@ -58,14 +58,14 @@ jobs:
       #   run: make -C doc latexpdf
 
       - name: Upload HTML Documentation
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v3
         with:
           name: Documentation
           path: doc/build/html
           retention-days: 7
 
       # - name: Upload PDF Documentation
-      #   uses: actions/upload-artifact@v2.2.4
+      #   uses: actions/upload-artifact@v3
       #   with:
       #     name: Documentation
       #     path: doc/build/latex/*.pdf

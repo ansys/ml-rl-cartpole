@@ -33,11 +33,14 @@ class CartPoleEnv(gym.Env, utils.EzPickle):
     def step(self, action):
         self._take_action(action)
         self.env.step(CartPoleEnv.actions[action])
+        # ob, reward, terminated, truncated, info = self.env.step(CartPoleEnv.actions[action])
 
         self.status = self.env.is_over()
         reward = self._get_reward()
         ob = self.env.get_state()
         episode_over = self.status
+        
+        
         return ob, reward, episode_over, False, {}
 
     def _take_action(self, action):
