@@ -47,7 +47,8 @@ class StateFormatterIndexed:
 class ReplayBuffer:
     def __init__(self, env, hwm0, capacity):
         self.env = env
-        self.s_formatter = StateFormatter(self.env.reset().shape[0])
+        s0, info = self.env.reset()
+        self.s_formatter = StateFormatter(s0.shape[0])
         self.cursor = 0
         self.hwm = 0
         self.b = self.generate_samples(hwm0, capacity)
@@ -60,15 +61,18 @@ class ReplayBuffer:
     def generate_samples(self, hwm0, capacity):
         i_sample = 0
         seq_num = 1
-        s = self.s_formatter.convert(seq_num, self.env.reset())
+        s0, info = self.env.reset()
+        s = self.s_formatter.convert(seq_num, s0)
         b = np.full((capacity, self.s_formatter.s_shape * 2 + 2), fill_value=np.nan, dtype=float)
         while i_sample < hwm0:
             a = self.env.action_space.sample()
-            sp_gym, r, done, _ = self.env.step(a)
+            sp_gym, r, terminated, truncated, _ = self.env.step(a)
+            done = truncated or terminated
             sp = self.s_formatter.convert(seq_num + 1, sp_gym, done)
             b[i_sample] = np.r_[s, a, r, sp]
             seq_num = 1 if done else seq_num + 1
-            s = self.s_formatter.convert(seq_num, self.env.reset()) if done else sp
+            s0, info = self.env.reset()
+            s = self.s_formatter.convert(seq_num, s0) if done else sp
             i_sample += 1
         self.cursor = self.hwm = hwm0
         return b
@@ -102,7 +106,8 @@ class ClassicDQNLearner:
                  output_path=None, output_name=None):
         self.a_shape = 1
         self.n_actions = env_db.action_space.n
-        self.s_formatter = StateFormatter(env_db.reset().shape[0])
+        s0, info = env_db.reset()
+        self.s_formatter = StateFormatter(s0.shape[0])
         self.n_mini_batch = n_mini_batch
         self.epsilon = epsilon
         self.gamma = gamma

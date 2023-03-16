@@ -49,8 +49,11 @@
 from collections import namedtuple
 import numpy as np
 import re
-from ansys.mapdl import launch_mapdl
-mapdl = launch_mapdl(loglevel='ERROR', verbose=False)
+from ansys.mapdl.core import launch_mapdl
+mapdl = launch_mapdl(loglevel='ERROR', verbose=False, port=50056)
+
+# from ansys.mapdl import launch_mapdl
+# mapdl = launch_mapdl(loglevel='ERROR', verbose=False)
 
 
 class CartPoleMapdlSimple:
@@ -235,7 +238,7 @@ class CartPoleMapdlSimple:
 
     def get_state(self):
         return np.array([self._cart_pos, self._cart_velocity, self._theta_deg, self._pole_velocity],
-                        dtype=np.float)
+                        dtype=np.double)
 
     def is_over(self):
         return self._finished

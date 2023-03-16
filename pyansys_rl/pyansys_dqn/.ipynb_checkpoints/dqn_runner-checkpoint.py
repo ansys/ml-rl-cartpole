@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import collections
 from IPython.display import clear_output
 
-import gym
+import gymnasium as gym
 
 
 def basic_diagnostics(episode, steps, r_tot, r_max, r_ave, r_ave_max, steps_tot):
@@ -91,13 +91,14 @@ def run(
     master_results = np.zeros((n_episodes, 7), dtype=float)
 
     for episode in range(n_episodes):
-        s0 = env.reset()
+        s0, info = env.reset()
         learner.start_state(s0)
 
         done, r_tot, steps = False, 0.0, 0
         while not done:
             a = learner.next_action(action_sampler)
-            sp, r, done, info = env.step(a)
+            sp, r, terminated, truncated, info = env.step(a)
+            done = truncated or terminated
             learner.next_reading(sp, r, done)
             r_tot += r
             steps += 1

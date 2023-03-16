@@ -1,2 +1,4 @@
-gym>=0.10.9
-numpy>=1.16
+#Notebook dependencies
+gymnasium==0.27.1
+numpy==1.23.5
+ansys-mapdl-core==0.64.0
