@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 # # CartPole
 # This is a version of CartPole converted from Jonathan Glanville's original 2018 work with Google DeepMind  
-
 # <img src="cart_pole_diagram.jpg" alt="Drawing" style="width: 800px;"/>
-
 # The figure above shows the pole and its initial location, angle and length of the track
 # It is defined by the following parameters:
 #  * pole.radius
@@ -46,10 +43,13 @@
 # 10/11/2018
 # this code is for demonstration purposes and is not controlled
 # feel free to refer questions to jon.glanville@ansys.com
-from collections import namedtuple
-import numpy as np
 import re
-import ansys
+from collections import namedtuple
+
+import numpy as np
+from ansys.mapdl.core import launch_mapdl
+mapdl = launch_mapdl(loglevel='ERROR', verbose=False, port=50056)
+# import ansys
 # mapdl = ansys.Mapdl()
 
 
@@ -256,7 +256,7 @@ class CartPoleMapdl:
         # ## mass point for the cart
 
         mapdl.et(self._ids['cart'], 21)
-        mapdl.keyopt(self._ids['cart'], 3, 2)                 # rotary intertia options: 3-D mass without rotary inertia
+        mapdl.keyopt(self._ids['cart'], 3, 2)                 # rotary inertia options: 3-D mass without rotary inertia
         mapdl.r(self._ids['cart'], self._cart_mass)           # total mass (when keyopt(3) = 2, as is the case)
         mapdl.type(self._ids['cart'])
         mapdl.real(self._ids['cart'])
