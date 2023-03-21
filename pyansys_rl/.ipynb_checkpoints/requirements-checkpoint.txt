@@ -1,4 +1,4 @@
 gym==0.10.9
 keras==2.2.4
 numpy>=1.16,<=1.23.5
-tensorflo==1.13.1
+tensorflow==1.13.1
