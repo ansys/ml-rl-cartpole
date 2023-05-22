@@ -1,5 +1,5 @@
-from datetime import datetime
 import warnings
+from datetime import datetime
 
 from ansys_sphinx_theme import ansys_favicon, pyansys_logo_black
 
