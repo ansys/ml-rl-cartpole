@@ -1,4 +1,4 @@
-Sphinx==7.0.1
+Sphinx==6.2.1 # BLOCKED BY sphinx-design - Cannot upgrade to Sphinx 7 for now
 ipython==8.11.0
 numpydoc==1.5.0
 ansys-sphinx-theme==0.9.9
