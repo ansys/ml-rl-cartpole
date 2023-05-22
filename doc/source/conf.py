@@ -1,7 +1,7 @@
 from datetime import datetime
 import warnings
 
-from pyansys_sphinx_theme import pyansys_logo_black
+from ansys_sphinx_theme import ansys_favicon, pyansys_logo_black
 
 # suppress annoying matplotlib bug
 warnings.filterwarnings(
@@ -99,7 +99,7 @@ copybutton_prompt_is_regexp = True
 
 
 # -- Options for HTML output -------------------------------------------------
-html_theme = "pyansys_sphinx_theme"
+html_theme = "ansys_sphinx_theme"
 html_logo = pyansys_logo_black
 html_short_title = html_title = "ML-RL-Cartpole"
 html_theme_options = {
@@ -112,6 +112,9 @@ html_theme_options = {
         ("Extended Examples Library", "https://mapdldocs.pyansys.com/user_guide/extended_examples/index.html"),
     ],
 }
+
+# Favicon
+html_favicon = ansys_favicon
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
