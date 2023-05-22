@@ -55,7 +55,7 @@ master_doc = "index"
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -108,8 +108,8 @@ html_theme_options = {
     "show_breadcrumbs": True,
     "additional_breadcrumbs": [
         ("PyAnsys", "https://docs.pyansys.com/"),
-        ("PyMAPDL", "https://mapdldocs.pyansys.com/"),
-        ("Extended Examples Library", "https://mapdldocs.pyansys.com/user_guide/extended_examples/index.html"),
+        ("PyMAPDL", "https://mapdl.docs.pyansys.com/version/stable/"),
+        ("Examples Library", "https://mapdl.docs.pyansys.com/version/stable/examples/index.html"),
     ],
 }
 
