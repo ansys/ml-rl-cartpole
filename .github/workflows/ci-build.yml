@@ -73,7 +73,7 @@ jobs:
 
       - name: Running tests
         env:
-          PYMAPDL_START_INSTANCE:false
+          PYMAPDL_START_INSTANCE: false
         run: |
           pytest -s
 

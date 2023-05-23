@@ -45,8 +45,8 @@ repos:
   - id: check-merge-conflict
   - id: debug-statements
 
-# # this validates our github workflow files
-# - repo: https://github.com/python-jsonschema/check-jsonschema
-#   rev: 0.23.0
-#   hooks:
-#     - id: check-github-workflows
+# this validates our github workflow files
+- repo: https://github.com/python-jsonschema/check-jsonschema
+  rev: 0.23.0
+  hooks:
+    - id: check-github-workflows
