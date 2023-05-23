@@ -10,6 +10,13 @@ on:
 
 env:
   MAIN_PYTHON_VERSION: '3.9'
+  ON_CI: True
+  ON_REMOTE: TRUE
+  ON_UBUNTU: TRUE
+  MAPDL_IMAGE: ghcr.io/ansys/mapdl:v22.2-ubuntu
+  PYMAPDL_PORT: 21000  # default won't work on GitHub runners
+  PYMAPDL_DB_PORT: 21001  # default won't work on GitHub runners
+  PYMAPDL_START_INSTANCE: FALSE
 
 jobs:
 
@@ -52,13 +59,23 @@ jobs:
           pip install --upgrade pip ipython ipykernel
           ipython kernel install --name "python3" --user
       
-      # - name: Installing packages
-      #   run: |
-      #     pip install ./pyansys_rl ./pyansys_gym -q --use-feature=fast-deps
-      
+      - name: "Login in Github container registry"
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GH_USERNAME }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Pull, launch, and validate MAPDL service"
+        run: .ci/start_mapdl.sh
+        env:
+          LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
+
       - name: Running tests
+        env:
+          PYMAPDL_START_INSTANCE:false
         run: |
-          pytest
+          pytest -s
 
   docs_build:
     name: "Documentation building"
