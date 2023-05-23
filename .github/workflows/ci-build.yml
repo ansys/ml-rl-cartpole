@@ -13,7 +13,7 @@ env:
   ON_CI: True
   ON_REMOTE: TRUE
   ON_UBUNTU: TRUE
-  MAPDL_IMAGE: ghcr.io/ansys/mapdl:v22.2-ubuntu
+  MAPDL_IMAGE: ghcr.io/ansys/pymapdl/mapdl:v22.2-ubuntu
   PYMAPDL_PORT: 21000  # default won't work on GitHub runners
   PYMAPDL_DB_PORT: 21001  # default won't work on GitHub runners
   PYMAPDL_START_INSTANCE: FALSE
