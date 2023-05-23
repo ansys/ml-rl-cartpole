@@ -40,7 +40,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
-      
+
       - name: Update OS
         run: |
           sudo apt update
@@ -52,9 +52,9 @@ jobs:
         #pip install --upgrade pip ipython ipykernel
         #ipython kernel install --name "python3" --user
       
-      - name: Installing packages
-        run: |
-          pip install ./pyansys_rl ./pyansys_gym -q --use-feature=fast-deps
+      # - name: Installing packages
+      #   run: |
+      #     pip install ./pyansys_rl ./pyansys_gym -q --use-feature=fast-deps
       
       - name: Running tests
         run: |
@@ -81,7 +81,6 @@ jobs:
 
       - name: Build HTML Documentation
         run: |
-          pip install -r requirements_docs.txt --disable-pip-version-check
           make -C doc html SPHINXOPTS="-W"
           touch doc/build/html/.nojekyll
   
