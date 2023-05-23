@@ -1,4 +1,5 @@
-gym>=0.10.9
-keras>=2.2.4
-numpy>=1.16
-tensorflow>=1.13.1
+gym>=0.10.9,<0.22.0
+keras==2.2.4
+numpy>=1.16,<=1.23.5
+tensorflow==2.9
+ansys-mapdl-core>=0.64.0

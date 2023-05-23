@@ -1,7 +1,7 @@
-from datetime import datetime
 import warnings
+from datetime import datetime
 
-from pyansys_sphinx_theme import pyansys_logo_black
+from ansys_sphinx_theme import ansys_favicon, pyansys_logo_black
 
 # suppress annoying matplotlib bug
 warnings.filterwarnings(
@@ -62,7 +62,7 @@ notfound_urls_prefix = "/../"
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -106,19 +106,22 @@ copybutton_prompt_is_regexp = True
 
 
 # -- Options for HTML output -------------------------------------------------
-html_theme = "pyansys_sphinx_theme"
+html_theme = "ansys_sphinx_theme"
 html_logo = pyansys_logo_black
 html_short_title = html_title = "ML-RL-Cartpole"
 html_theme_options = {
-    "github_url": "https://pyansys.github.io/ml-rl-cartpole",
+    "github_url": "https://github.com/pyansys/ml-rl-cartpole",
     "show_prev_next": False,
     "show_breadcrumbs": True,
     "additional_breadcrumbs": [
         ("PyAnsys", "https://docs.pyansys.com/"),
-        ("PyMAPDL", "https://mapdldocs.pyansys.com/"),
-        ("Extended Examples Library", "https://mapdldocs.pyansys.com/user_guide/extended_examples/index.html"),
+        ("PyMAPDL", "https://mapdl.docs.pyansys.com/version/stable/"),
+        ("Examples Library", "https://mapdl.docs.pyansys.com/version/stable/examples/index.html"),
     ],
 }
+
+# Favicon
+html_favicon = ansys_favicon
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
