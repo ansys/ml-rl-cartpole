@@ -48,9 +48,9 @@ jobs:
       - name: Install tests requirements
         run: |
           pip install -r requirements/requirements_tests.txt --disable-pip-version-check
-        
-        #pip install --upgrade pip ipython ipykernel
-        #ipython kernel install --name "python3" --user
+          # To fix no kernel named python3
+          pip install --upgrade pip ipython ipykernel
+          ipython kernel install --name "python3" --user
       
       # - name: Installing packages
       #   run: |
