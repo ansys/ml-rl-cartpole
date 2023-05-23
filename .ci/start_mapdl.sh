@@ -1,6 +1,7 @@
 #!/bin/bash
 docker pull $MAPDL_IMAGE
 docker run \
+    --entrypoint "/bin/bash" \
     --name mapdl \
     --restart always \
     --health-cmd="ps aux | grep \"[/]ansys_inc/.*ansys\.e.*grpc\" -q && echo 0 || echo 1" \
@@ -12,6 +13,7 @@ docker run \
     -e ANSYS_LOCK="OFF" \
     -p $PYMAPDL_PORT:50052 \
     -p $PYMAPDL_DB_PORT:50055 \
-    $MAPDL_IMAGE \
-    -smp -np 2 > log.txt &
+    -w /jobs \
+    -u=0:0 \
+    $MAPDL_IMAGE /ansys_inc/v222/ansys/bin/mapdl -grpc -dir /jobs -smp -np 2 > log.txt &
 grep -q 'Server listening on' <(timeout 60 tail -f log.txt)
