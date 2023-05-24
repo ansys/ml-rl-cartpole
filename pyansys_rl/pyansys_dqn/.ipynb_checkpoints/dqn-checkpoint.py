@@ -1,6 +1,7 @@
-import numpy as np
 import os
 import pickle
+
+import numpy as np
 
 
 class Diagnostics:
@@ -9,7 +10,7 @@ class Diagnostics:
 
     def record_q_swap(self):
         if self.active:
-            print('Q-swap')
+            print("Q-swap")
 
 
 class StateFormatter:
@@ -18,6 +19,7 @@ class StateFormatter:
     In the simplest of examples, the formatter is an identity function,
     but it may choose to make subtle modifications to the state
     """
+
     def __init__(self, s_shape_gym):
         self.s_shape = s_shape_gym
 
@@ -34,6 +36,7 @@ class StateFormatterIndexed:
     In the simplest of examples, the formatter is an identity function,
     but it may choose to make subtle modifications to the state
     """
+
     def __init__(self, s_shape_gym):
         self.s_shape = s_shape_gym + 1
 
@@ -80,26 +83,41 @@ class ReplayBuffer:
         if not os.path.exists(path):
             os.makedirs(path)
 
-        with open(os.path.join(path, base_name + '_rpl.pkl'), 'wb') as f:
+        with open(os.path.join(path, base_name + "_rpl.pkl"), "wb") as f:
             pickle.dump(self.s_formatter, f)
             pickle.dump(self.cursor, f)
             pickle.dump(self.hwm, f)
 
-        np.save(os.path.join(path, base_name + '_rpl.npy'), self.b)
+        np.save(os.path.join(path, base_name + "_rpl.npy"), self.b)
 
     def load(self, path, base_name):
-        self.b = np.load(os.path.join(path, base_name + '_rpl.npy'))
+        self.b = np.load(os.path.join(path, base_name + "_rpl.npy"))
 
-        with open(os.path.join(path, base_name + '_dqn.pkl'), 'rb') as f:
+        with open(os.path.join(path, base_name + "_dqn.pkl"), "rb") as f:
             self.s_formatter = pickle.load(f)
             self.cursor = pickle.load(f)
             self.hwm = pickle.load(f)
 
 
 class ClassicDQNLearner:
-    def __init__(self, env_db, q_factory, layers, epsilon, gamma, n_mini_batch, replay_db_warmup,
-                 replay_db_capacity, c_cycle, polyak_rate, shaper_fn=None, diagnostics=False, double_dqn=True,
-                 output_path=None, output_name=None):
+    def __init__(
+        self,
+        env_db,
+        q_factory,
+        layers,
+        epsilon,
+        gamma,
+        n_mini_batch,
+        replay_db_warmup,
+        replay_db_capacity,
+        c_cycle,
+        polyak_rate,
+        shaper_fn=None,
+        diagnostics=False,
+        double_dqn=True,
+        output_path=None,
+        output_name=None,
+    ):
         self.a_shape = 1
         self.n_actions = env_db.action_space.n
         self.s_formatter = StateFormatter(env_db.reset().shape[0])
@@ -134,11 +152,11 @@ class ClassicDQNLearner:
             os.makedirs(path)
 
         self.q.save(path, base_name)
-        self.q_target.save(path, base_name + '_target')
+        self.q_target.save(path, base_name + "_target")
 
         self.buffer.save(path, base_name)
 
-        with open(os.path.join(path, base_name + '_dqn.pkl'), 'wb') as f:
+        with open(os.path.join(path, base_name + "_dqn.pkl"), "wb") as f:
             pickle.dump(self.a_shape, f)
             pickle.dump(self.n_actions, f)
             pickle.dump(self.s_formatter, f)
@@ -153,12 +171,12 @@ class ClassicDQNLearner:
 
     def load(self, path, base_name):
         self.q.load(path, base_name)
-        self.q_target.load(path, base_name + '_target')
+        self.q_target.load(path, base_name + "_target")
 
         # with open(os.path.join(path, base_name + '_rpl.npy'), 'rb') as f:
         #    self.buffer = np.load(f)
 
-        with open(os.path.join(path, base_name + '_dqn.pkl'), 'rb') as f:
+        with open(os.path.join(path, base_name + "_dqn.pkl"), "rb") as f:
             self.a_shape = pickle.load(f)
             self.n_actions = pickle.load(f)
             self.s_formatter = pickle.load(f)
@@ -180,8 +198,7 @@ class ClassicDQNLearner:
         explore = np.random.rand() < cur_epsilon
         if explore:
             # with probability epsilon select a random action a
-            a = np.random.randint(self.n_actions) \
-                if a_sampler_fn is None else a_sampler_fn()
+            a = np.random.randint(self.n_actions) if a_sampler_fn is None else a_sampler_fn()
         else:
             # otherwise select a_t = argmax(Q(s_t))
             qs = self.q.predict(self.s[None, :])
@@ -204,7 +221,7 @@ class ClassicDQNLearner:
 
         # sample random mini-batch of transitions from D
         mini_batch_raw = self.buffer.mini_batch(self.n_mini_batch)
-        states = mini_batch_raw[:, :self.s_formatter.s_shape]
+        states = mini_batch_raw[:, : self.s_formatter.s_shape]
         rewards = mini_batch_raw[:, self.s_formatter.s_shape + self.a_shape]
         actions = np.round(mini_batch_raw[:, self.s_formatter.s_shape]).astype(int)
         states_p = mini_batch_raw[:, -self.s_formatter.s_shape:]

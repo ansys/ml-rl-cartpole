@@ -1,17 +1,16 @@
-import gym
-from gym import error, spaces
-from gym import utils
-from gym.utils import seeding
 import logging
-import numpy as np
-from . import CartPoleMapdlSimple
 
+import gym
+import numpy as np
+from gym import spaces, utils
+
+from . import CartPoleMapdlSimple
 
 logger = logging.getLogger(__name__)
 
 
 class CartPoleEnv(gym.Env, utils.EzPickle):
-    metadata = {'render.modes': ['human']}
+    metadata = {"render.modes": ["human"]}
 
     actions = {0: -1, 1: 1}
 
@@ -19,14 +18,16 @@ class CartPoleEnv(gym.Env, utils.EzPickle):
         self.env = CartPoleMapdlSimple()
         self.status = None
         self.action_space = spaces.Discrete(2)
-        self.observation_space = spaces.Box(low=np.array([-5, -np.inf, -180., -np.inf]),
-                                            high=np.array([5, np.inf, 180., np.inf]),
-                                            dtype=np.float32)
+        self.observation_space = spaces.Box(
+            low=np.array([-5, -np.inf, -180.0, -np.inf]),
+            high=np.array([5, np.inf, 180.0, np.inf]),
+            dtype=np.float32,
+        )
 
         self.steps_beyond_done = None
 
     def __del__(self):
-        pass 
+        pass
 
     def _configure_environment(self):
         pass
@@ -48,7 +49,7 @@ class CartPoleEnv(gym.Env, utils.EzPickle):
         if not self.env.is_over():
             return 1
         elif self.steps_beyond_done is None:
-            self.steps_beyond_done = 0.
+            self.steps_beyond_done = 0.0
             return 1
         else:
             self.steps_beyond_done += 1
@@ -59,5 +60,5 @@ class CartPoleEnv(gym.Env, utils.EzPickle):
         self.env.reset()
         return self.env.get_state()
 
-    def _render(self, mode='human', close=False):
+    def _render(self, mode="human", close=False):
         pass
