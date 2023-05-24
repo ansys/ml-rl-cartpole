@@ -1,27 +1,51 @@
+fail_fast: True
+
 repos:
+
+- repo: https://github.com/pycqa/isort
+  rev: 5.12.0
+  hooks:
+  - id: isort
+    args:
+      - --line-length=130
+
 - repo: https://github.com/psf/black
-  rev: 21.12b0
+  rev: 23.3.0  # IF VERSION CHANGES --> MODIFY "blacken-docs" MANUALLY AS WELL!!
   hooks:
   - id: black
-    exclude: "^({{cookiecutter.project_slug}}/)"
-- repo: https://github.com/asottile/reorder_python_imports
-  rev: v2.6.0
+    args:
+      - --line-length=130
+
+- repo: https://github.com/adamchainz/blacken-docs
+  rev: 1.13.0
   hooks:
-  - id: reorder-python-imports
-    args: ["--py37-plus"]
-    exclude: "^({{cookiecutter.project_slug}}/)"
-- repo: https://gitlab.com/PyCQA/flake8
-  rev: 3.9.2
+  - id: blacken-docs
+    additional_dependencies: [black==23.3.0]
+
+
+# - repo: https://github.com/codespell-project/codespell
+#   rev: v2.2.4
+#   hooks:
+#   - id: codespell
+#     args: ["--toml", "pyproject.toml"]
+#     additional_dependencies: ["tomli"]
+
+# - repo: https://github.com/pycqa/pydocstyle
+#   rev: 6.1.1
+#   hooks:
+#   - id: pydocstyle
+#     additional_dependencies: [toml]
+#     exclude: "tests/"
+
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
   hooks:
-  - id: flake8
-    exclude: "^({{cookiecutter.project_slug}}/)"
-- repo: https://github.com/codespell-project/codespell
-  rev: v2.1.0
+  - id: check-merge-conflict
+  - id: debug-statements
+
+# this validates our github workflow files
+- repo: https://github.com/python-jsonschema/check-jsonschema
+  rev: 0.22.0
   hooks:
-  - id: codespell
-- repo: https://github.com/pycqa/pydocstyle
-  rev: 6.1.1
-  hooks:
-  - id: pydocstyle
-    additional_dependencies: [toml]
-    exclude: "^({{cookiecutter.project_slug}}/)"
+    - id: check-github-workflows
+
