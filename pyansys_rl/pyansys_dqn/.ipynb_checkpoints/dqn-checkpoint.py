@@ -224,7 +224,7 @@ class ClassicDQNLearner:
         states = mini_batch_raw[:, : self.s_formatter.s_shape]
         rewards = mini_batch_raw[:, self.s_formatter.s_shape + self.a_shape]
         actions = np.round(mini_batch_raw[:, self.s_formatter.s_shape]).astype(int)
-        states_p = mini_batch_raw[:, -self.s_formatter.s_shape:]
+        states_p = mini_batch_raw[:, -self.s_formatter.s_shape :]
 
         rewards_shaper = np.zeros_like(rewards)
         if self.shaper_fn is not None:
