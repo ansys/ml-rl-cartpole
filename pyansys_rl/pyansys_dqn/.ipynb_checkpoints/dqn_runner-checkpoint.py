@@ -1,11 +1,11 @@
-import numpy as np
-import os
-import logging
-from matplotlib import pyplot as plt
 import collections
-from IPython.display import clear_output
+import logging
+import os
 
 import gym
+import numpy as np
+from IPython.display import clear_output
+from matplotlib import pyplot as plt
 
 
 def basic_diagnostics(episode, steps, r_tot, r_max, r_ave, r_ave_max, steps_tot):
@@ -146,27 +146,36 @@ from IPython.display import clear_output
 class LivePlotter:
     def __init__(self):
         self.data = collections.defaultdict(list)
-        self.figsize=(18,8)
-        self.title='Training History'
+        self.figsize = (18, 8)
+        self.title = "Training History"
         self.figure, self.ax = plt.subplots(1, figsize=self.figsize)
-        
+
     def live_plot(self, episode, steps, r_tot, r_max, r_ave, r_ave_max, steps_tot):
-        self.data['current'].append(r_tot)
-        self.data['average'].append(r_ave)
-        
+        self.data["current"].append(r_tot)
+        self.data["average"].append(r_ave)
+
         clear_output(wait=True)
-        plt.plot(self.data['current'], label='current', color='orange', linestyle='dashed')
-        plt.plot(self.data['average'], label='average', color='blue', linestyle='-')
+        plt.plot(self.data["current"], label="current", color="orange", linestyle="dashed")
+        plt.plot(self.data["average"], label="average", color="blue", linestyle="-")
 
         if r_ave > 196:
-            plt.figure(1).text(0.95, 0.05, 'Success!', fontsize=50, color='gray', ha='right', va='bottom', alpha=0.5)
-            
+            plt.figure(1).text(
+                0.95,
+                0.05,
+                "Success!",
+                fontsize=50,
+                color="gray",
+                ha="right",
+                va="bottom",
+                alpha=0.5,
+            )
+
         plt.title(self.title)
         plt.grid(True)
-        plt.xlabel('episode')
-        plt.ylabel('reward')
-        if len(self.data['current']) == 1:
-            plt.legend(loc='lower right') # the plot evolves to the right
-        plt.ylim([0,200])
-        plt.xlim([0,300])
-        plt.show();
+        plt.xlabel("episode")
+        plt.ylabel("reward")
+        if len(self.data["current"]) == 1:
+            plt.legend(loc="lower right")  # the plot evolves to the right
+        plt.ylim([0, 200])
+        plt.xlim([0, 300])
+        plt.show()

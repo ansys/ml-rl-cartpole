@@ -1,6 +1,6 @@
 import numpy as np
-from . import dqn
-from . import qn_keras
+
+from . import dqn, qn_keras
 
 
 class RandomAgent:
@@ -29,7 +29,7 @@ class TrainedAgent:
         self.seq_num = 0
 
         self.q_nns = [qn_keras.QNetwork(0, 0, 0, 0, 0, hack=True)]
-        self.q_nns[0].load(agent_path, agent_name + '_target')
+        self.q_nns[0].load(agent_path, agent_name + "_target")
 
     def start_state(self, s0):
         self.s = self.s_formatter.convert(self.seq_num, s0)

@@ -16,7 +16,7 @@ warnings.filterwarnings(
 project = "ML-RL-Cartpole-PyAnsys"
 copyright = f"(c) {datetime.now().year} ANSYS, Inc. All rights reserved"
 author = "ANSYS, Inc."
-release = version = '0.1.0'
+release = version = "0.1.0"
 
 
 # -- General configuration ---------------------------------------------------
@@ -25,7 +25,7 @@ extensions = [
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
     "sphinx_copybutton",
-    'IPython.sphinxext.ipython_console_highlighting'
+    "IPython.sphinxext.ipython_console_highlighting",
 ]
 
 # Intersphinx mapping
@@ -109,7 +109,10 @@ html_theme_options = {
     "additional_breadcrumbs": [
         ("PyAnsys", "https://docs.pyansys.com/"),
         ("PyMAPDL", "https://mapdl.docs.pyansys.com/version/stable/"),
-        ("Examples Library", "https://mapdl.docs.pyansys.com/version/stable/examples/index.html"),
+        (
+            "Examples Library",
+            "https://mapdl.docs.pyansys.com/version/stable/examples/index.html",
+        ),
     ],
 }
 
@@ -129,8 +132,13 @@ latex_elements = {}
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, f"pymapdl-ml-cartpole-documentation-{version}.tex",
-     "PyMAPDL Cart-Pole Documentation", author, "manual"),
+    (
+        master_doc,
+        f"pymapdl-ml-cartpole-documentation-{version}.tex",
+        "PyMAPDL Cart-Pole Documentation",
+        author,
+        "manual",
+    ),
 ]
 
 
@@ -138,9 +146,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, "pymapdl-ml-cartpole", "PyMAPDL Cart-Pole Documentation", [author], 1)
-]
+man_pages = [(master_doc, "pymapdl-ml-cartpole", "PyMAPDL Cart-Pole Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------------
