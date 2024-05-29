@@ -4,7 +4,8 @@ import pickle
 import numpy as np
 from tensorflow.keras.layers import Activation, Dense
 from tensorflow.keras.models import Sequential, load_model
-from tensorflow.keras.optimizers import SGD, Adam
+from tensorflow.keras.optimizers import SGD
+from tf.keras.optimizers.legacy import Adam
 
 
 class QNetwork:
