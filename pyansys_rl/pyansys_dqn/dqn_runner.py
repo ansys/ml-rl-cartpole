@@ -152,7 +152,9 @@ class LivePlotter:
         self.data["average"].append(r_ave)
 
         clear_output(wait=True)
-        plt.plot(self.data["current"], label="current", color="orange", linestyle="dashed")
+        plt.plot(
+            self.data["current"], label="current", color="orange", linestyle="dashed"
+        )
         plt.plot(self.data["average"], label="average", color="blue", linestyle="-")
 
         if r_ave > 196:

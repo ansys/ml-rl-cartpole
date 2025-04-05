@@ -4,7 +4,7 @@ import gym
 import numpy as np
 from gym import spaces, utils
 
-from . import CartPoleMapdlSimple
+from .cartpole_mapdl_simple import CartPoleMapdlSimple
 
 logger = logging.getLogger(__name__)
 
