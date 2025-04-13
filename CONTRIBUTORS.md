@@ -7,4 +7,5 @@
 ## Individual Contributors
 
 * [Alex Kaszynski](https://github.com/akaszynski)
-* [Camille](https://github.com/clatapie)
+* [Camille Latapie](https://github.com/clatapie)
+* [Maxime Rey](https://github.com/MaxJPRey)
