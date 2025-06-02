@@ -24,7 +24,9 @@ class StateFormatter:
         self.s_shape = s_shape_gym
 
     def convert(self, step, s, is_terminal=False):
-        return np.r_[s] if not is_terminal else np.full((self.s_shape,), fill_value=np.nan)
+        return (
+            np.r_[s] if not is_terminal else np.full((self.s_shape,), fill_value=np.nan)
+        )
 
     def is_terminal(self, s):
         return np.any(np.isnan(s))
@@ -41,7 +43,11 @@ class StateFormatterIndexed:
         self.s_shape = s_shape_gym + 1
 
     def convert(self, step, s, is_terminal=False):
-        return np.r_[step, s] if not is_terminal else np.full((self.s_shape,), fill_value=np.nan)
+        return (
+            np.r_[step, s]
+            if not is_terminal
+            else np.full((self.s_shape,), fill_value=np.nan)
+        )
 
     def is_terminal(self, s):
         return np.any(np.isnan(s))
@@ -64,7 +70,9 @@ class ReplayBuffer:
         i_sample = 0
         seq_num = 1
         s = self.s_formatter.convert(seq_num, self.env.reset())
-        b = np.full((capacity, self.s_formatter.s_shape * 2 + 2), fill_value=np.nan, dtype=float)
+        b = np.full(
+            (capacity, self.s_formatter.s_shape * 2 + 2), fill_value=np.nan, dtype=float
+        )
         while i_sample < hwm0:
             a = self.env.action_space.sample()
             sp_gym, r, done, _ = self.env.step(a)
@@ -140,8 +148,12 @@ class ClassicDQNLearner:
         self.buffer = ReplayBuffer(env_db, replay_db_warmup, replay_db_capacity)
 
         # initialize action-value function Q with random weights theta
-        self.q = q_factory(layers, self.s_formatter, self.a_shape, self.n_actions, self.n_mini_batch)
-        self.q_target = q_factory(layers, self.s_formatter, self.a_shape, self.n_actions, self.n_mini_batch)
+        self.q = q_factory(
+            layers, self.s_formatter, self.a_shape, self.n_actions, self.n_mini_batch
+        )
+        self.q_target = q_factory(
+            layers, self.s_formatter, self.a_shape, self.n_actions, self.n_mini_batch
+        )
         self.q_double = self.q if double_dqn else self.q_target
 
         # initialize action-value function Q_hat with weights theta_minus = theta
@@ -198,7 +210,11 @@ class ClassicDQNLearner:
         explore = np.random.rand() < cur_epsilon
         if explore:
             # with probability epsilon select a random action a
-            a = np.random.randint(self.n_actions) if a_sampler_fn is None else a_sampler_fn()
+            a = (
+                np.random.randint(self.n_actions)
+                if a_sampler_fn is None
+                else a_sampler_fn()
+            )
         else:
             # otherwise select a_t = argmax(Q(s_t))
             qs = self.q.predict(self.s[None, :])
@@ -228,8 +244,18 @@ class ClassicDQNLearner:
 
         rewards_shaper = np.zeros_like(rewards)
         if self.shaper_fn is not None:
-            potential_s = np.array([self.shaper_fn(s_) if not self.s_formatter.is_terminal(s_) else 0 for s_ in states])
-            potential_sp = np.array([self.shaper_fn(s_) if not self.s_formatter.is_terminal(s_) else 0 for s_ in states_p])
+            potential_s = np.array(
+                [
+                    self.shaper_fn(s_) if not self.s_formatter.is_terminal(s_) else 0
+                    for s_ in states
+                ]
+            )
+            potential_sp = np.array(
+                [
+                    self.shaper_fn(s_) if not self.s_formatter.is_terminal(s_) else 0
+                    for s_ in states_p
+                ]
+            )
             rewards_shaper = potential_sp * self.gamma - potential_s
 
         # set y_j = r_j + gamma * max(Q_hat(s_{t+1}))
